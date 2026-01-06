@@ -3,7 +3,7 @@ import React from "react";
 export default function StaffPage() {
   return (
     <section className="pt-28">
-      <div className="py-8 px-4 mx-auto text-center lg:py-16 lg:px-6">
+      <div className="py-8 px-4 mx-auto max-w-5xl text-center lg:py-16 lg:px-6">
         <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
         <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white">ستافی <span className="text-violet-500">کوردپیکسڵ</span></h2>
