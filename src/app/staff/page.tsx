@@ -16,7 +16,7 @@ export default function StaffPage() {
             <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               <a href="#">Haryad</a>
             </h3>
-            <p>Co-nigger</p>
+            <p>Co-niggers</p>
           </div>
 
           {/* Repeat other team members - for brevity include a few examples */}
