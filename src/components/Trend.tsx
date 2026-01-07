@@ -13,6 +13,7 @@ export default async function Trend() {
   return (
     <section dir="rtl" className="py-6">
       <div className="max-w-6xl mx-auto px-4">
+        <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
         <h3 className="text-xl font-bold mb-4">نوێترین فیلمەکان</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {movies?.map((m: any) => (
