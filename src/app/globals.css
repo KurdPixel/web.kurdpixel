@@ -25,6 +25,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Hide the native system cursor inside the site for non-form elements (disabled on touch devices)
+   Allow native cursor for inputs, buttons, selects, textareas and contenteditable regions */
+@media (pointer: fine) {
+  body *:not(input):not(textarea):not(select):not(button):not([contenteditable='true']) {
+    cursor: none !important;
+  }
+}
+
 /* Only apply KurdishFont to Kurdish/Arabic Unicode chars */
 .kurdish-text {
   font-family: 'KurdishFont', Arial, Helvetica, sans-serif;
