@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-<footer dir="rtl" className="p-4 bg-[#040303] sm:p-6">
+<footer dir="rtl" className="p-4 bg-[#121212] border-t border-gray-700 sm:p-6">
   <div className="mx-auto max-w-6xl">
     <div className="md:flex md:justify-between">
       <div className="mb-6 md:mb-0">
@@ -15,10 +15,10 @@ export default function Footer() {
 
       <div className="grid grid-cols-2 gap-8 sm:gap-12 sm:grid-cols-3 text-right">
         <div>
-          <h2 className="mb-6 text-lg font-semibold text-white uppercase">
+          <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
             فیلم
           </h2>
-          <ul className="text-gray-600">
+          <ul className="text-gray-300">
             <li className="mb-4">
              <Link href="/movies" className="hover:underline">
               فیلمەکان
@@ -28,10 +28,10 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-6 text-lg font-semibold text-white uppercase">
+          <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
             زنجیرە
           </h2>
-          <ul className="text-gray-600">
+          <ul className="text-gray-300">
             <li className="mb-4">
              <Link href="/movies" className="hover:underline">
               فیلمەکان
@@ -41,10 +41,10 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-6 text-lg font-semibold text-white uppercase">
+          <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
             دەربارە
           </h2>
-          <ul className="text-gray-600">
+          <ul className="text-gray-300">
             <li className="mb-4">
              <Link href="/staff" className="hover:underline">
               ستاف

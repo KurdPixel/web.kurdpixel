@@ -1,13 +1,15 @@
 ﻿"use client";
-import React, { useState } from "react";
 
+import React, { useState } from "react";
+import Trend from "../components/Trend";
 
 const images = [
   "https://4kwallpapers.com/images/walls/thumbs_3t/21613.jpg",
   "https://4kwallpapers.com/images/walls/thumbs_3t/10148.jpg",
-  "https://mir-s3-cdn-cf.behance.net/project_modules/fs/62071096474123.5eaf65302480b.png",
-  "https://www.tallengestore.com/cdn/shop/products/Fast_Furious_-_Vin_Diesel_-_Dwayne_Rock_Johnson_-_Hollywood_Action_Movie_Poster_4d33a269-2e9d-46cb-af8b-eb095fd1cc08.jpg?v=1582542919",
-  "https://w0.peakpx.com/wallpaper/269/249/HD-wallpaper-stranger-things-season-2-tv-series-2017-movie-poster-stranger-things-2.jpg",
+  "https://4kwallpapers.com/images/walls/thumbs_3t/24522.jpg",
+  "https://1.vikiplatform.com/c/41238c/2fb66c5c74.jpg?x=b",
+  "https://i0.wp.com/movizark.com/wp-content/uploads/2025/10/Ek-Deewane-Ki-Deewaniyat.jpg?resize=1500%2C768&ssl=1",
+  "https://www.framerated.co.uk/frwpcontent/uploads/2025/11/frankenstein2025_01.jpg",
 ];
 
 export default function Home() {
@@ -81,6 +83,7 @@ export default function Home() {
           </button>
         </div>
       </main>
+      <Trend />
     </>
   );
 }
