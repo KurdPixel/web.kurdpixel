@@ -37,6 +37,8 @@ export default function Home() {
                   src={src}
                   className="block w-full h-full object-cover"
                   alt={`Slide ${idx + 1}`}
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
                 />
               </div>
             ))}

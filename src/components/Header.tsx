@@ -68,7 +68,7 @@ export default function Header() {
           </div>
 
           <Link href="/" className="flex items-center gap-3">
-            <img src="https://i.imgur.com/8Udniyn.png" className="h-7" alt="" />
+            <img src="https://i.imgur.com/8Udniyn.png" className="h-7" alt="" draggable={false} onDragStart={(e) => e.preventDefault()} />
           </Link>
         </div>
       </div>

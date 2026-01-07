@@ -88,7 +88,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <img
             src={movie.thumbnail_url}
             alt={movie.title}
-            className="w-60 aspect-[9/16] object-cover rounded-lg shadow"
+            className="w-60 .aspect-[9/16] object-cover rounded-lg shadow"
+            draggable={false}
           />
           <div className="flex-1 space-y-2">
             <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>

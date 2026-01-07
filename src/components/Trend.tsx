@@ -30,8 +30,8 @@ export default function Trend() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
           {movies?.slice(0, 12).map((m) => (
             <Link key={m.id} href={`/movies/${m.slug}`} className="block">
-              <div className="bg-white/5 rounded-lg overflow-hidden shadow hover:scale-105 transform transition">
-                <img src={m.thumbnail_url} alt={m.title} className="w-full h-40 sm:h-48 md:h-56 object-cover" />
+              <div className="bg-white/5 rounded-lg border-[0.5px] hover:border-[0.1px] border-gray-800 hover:border-violet-500 overflow-hidden shadow-sm hover:scale-105 transform transition duration-200">
+                <img src={m.thumbnail_url} alt={m.title} className="w-full h-40 sm:h-48 md:h-56 object-cover" draggable={false} onDragStart={(e) => e.preventDefault()} />
                 <div className="p-2 text-sm font-semibold text-center truncate">{m.title}</div>
               </div>
             </Link>

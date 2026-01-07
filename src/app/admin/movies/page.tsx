@@ -68,7 +68,7 @@ export default async function MoviesAdminPage() {
         <ul className="space-y-4">
           {movies?.map((movie) => (
             <li key={movie.id} className="flex items-center gap-4 p-2 border rounded">
-              <img src={movie.thumbnail_url} alt={movie.title} className="w-12 h-20 object-cover rounded" />
+              <img src={movie.thumbnail_url} alt={movie.title} className="w-12 h-20 object-cover rounded" draggable={false} />
               <div className="flex-1">
                 <div className="font-semibold">{movie.title}</div>
                 <div className="text-xs text-gray-500 truncate">{movie.video_url}</div>

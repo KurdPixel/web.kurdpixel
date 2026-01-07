@@ -8,7 +8,7 @@ export default function Footer() {
     <div className="md:flex md:justify-between">
       <div className="mb-6 md:mb-0">
         <Link href={"/"}>
-        <img src="https://i.imgur.com/8Udniyn.png" className="h-11" alt="" />
+        <img src="https://i.imgur.com/8Udniyn.png" className="h-11" alt="" draggable={false} />
         </Link>
         <p className="pt-2">کوردپیکسڵ یەکەمین و پڕبینەرترین ماڵپەڕی تایبەت بە فیلم و دراما کوردی و جیهانیەکان</p>
       </div>
