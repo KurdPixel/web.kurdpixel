@@ -19,6 +19,38 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   // Only use Vidmoly player, movie.video_url is the full embed URL
   const vidmolyEmbed = movie.video_url;
 
+  // Try to fetch view count from Vidmoly (server-side). Fallback to movie.views if available.
+  async function fetchViewsFromVidmoly(url: string) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" }, next: { revalidate: 60 } });
+      if (!res.ok) return null;
+      const html = await res.text();
+
+      const patterns = [
+        /([\d.,\s]+)\s*(?:views|Views|View)/i,
+        />\s*([\d.,\s]+)\s*views\s*</i,
+        /<span[^>]*class=["'][^"']*views[^"']*["'][^>]*>\s*([\d.,\s]+)\s*<\//i,
+        /مشاهدة(?:ات)?\s*[:\s]\s*([\d.,\s]+)/i
+      ];
+
+      for (const p of patterns) {
+        const m = html.match(p);
+        if (m && m[1]) return m[1].trim();
+      }
+
+      const near = html.match(/(views)[^0-9]{0,10}([\d.,\s]{1,20})/i) || html.match(/([\d.,\s]{1,20})[^0-9]{0,10}(views)/i);
+      if (near && near[2]) return near[2].trim();
+      if (near && near[1] && !isNaN(Number(near[1].replace(/[.,\s]/g, '')))) return near[1].trim();
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const rawViews = await fetchViewsFromVidmoly(vidmolyEmbed);
+  const viewsDisplay = rawViews ?? (movie.views ? String(movie.views) : "—");
+
   return (
 
     <main className="min-h-screen pt-46 relative overflow-hidden" dir="rtl">
@@ -62,6 +94,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
             <div><b>وەسف:</b> {movie.description}</div>
             <div><b>IMDb:</b> {movie.imdb_rating}</div>
+            <div><b>Views:</b> {viewsDisplay}</div>
             <div><b>زمان:</b> {movie.language}</div>
             <div><b>ماوە:</b> {movie.duration_minutes} خولەک</div>
             <div><b>تاگەکان:</b> {movie.tags?.join("، ")}</div>
