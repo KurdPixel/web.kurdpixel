@@ -1,7 +1,6 @@
 import React from "react";
 import supabase from "../../lib/supabaseClient";
 import Link from "next/link";
-import Trend from "../../components/Trend";
 
 export default async function MoviesPage() {
   const { data: movies, error } = await supabase

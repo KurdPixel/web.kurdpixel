@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-<footer dir="rtl" className="p-4 sm:p-6">
+<footer dir="rtl" className="p-4 bg-[#040303] sm:p-6">
   <div className="mx-auto max-w-6xl">
     <div className="md:flex md:justify-between">
       <div className="mb-6 md:mb-0">
@@ -55,7 +55,7 @@ export default function Footer() {
       </div>
     </div>
 
-    <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
+    <hr className="my-6 border-violet-500 sm:mx-auto lg:my-8" />
 
     <div className="sm:flex sm:items-center sm:justify-between text-right">
       <span className="text-sm text-gray-600 sm:text-center">

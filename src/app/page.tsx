@@ -3,8 +3,8 @@ import React, { useState } from "react";
 
 
 const images = [
-  "https://images.thedirect.com/media/article_full/spider-man-no-way-home-posters.jpg",
-  "https://snworksceo.imgix.net/ame-egl/71b1929c-0c30-475b-9287-c2adec9fb164.sized-1000x1000.jpeg?w=800&dpr=2&ar=16%3A9&fit=crop&crop=faces",
+  "https://4kwallpapers.com/images/walls/thumbs_3t/21613.jpg",
+  "https://4kwallpapers.com/images/walls/thumbs_3t/10148.jpg",
   "https://mir-s3-cdn-cf.behance.net/project_modules/fs/62071096474123.5eaf65302480b.png",
   "https://www.tallengestore.com/cdn/shop/products/Fast_Furious_-_Vin_Diesel_-_Dwayne_Rock_Johnson_-_Hollywood_Action_Movie_Poster_4d33a269-2e9d-46cb-af8b-eb095fd1cc08.jpg?v=1582542919",
   "https://w0.peakpx.com/wallpaper/269/249/HD-wallpaper-stranger-things-season-2-tv-series-2017-movie-poster-stranger-things-2.jpg",
@@ -39,7 +39,7 @@ export default function Home() {
           </div>
 
           {/* Black bloom / shadow rising from bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-1/3 md:h-1/4 pointer-events-none z-[25] bg-gradient-to-t from-black/80 to-transparent blur-3xl opacity-90" />
+          <div className="absolute bottom-0 left-0 right-0 h-1/3 md:h-1/4 pointer-events-none .z-[25] .bg-gradient-to-t from-black/80 to-transparent blur-3xl opacity-90" />
 
           <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
             {images.map((_, idx) => (
