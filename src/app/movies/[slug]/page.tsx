@@ -1,0 +1,83 @@
+import React from "react";
+import supabase from "../../../lib/supabaseClient";
+import { notFound } from "next/navigation";
+
+// This page expects a dynamic slug param
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  // Fetch movie data from Supabase
+  const { slug } = await params;
+  const { data: movie, error } = await supabase
+    .from("movies")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!movie || error) {
+    notFound();
+  }
+
+  // Only use Vidmoly player, movie.video_url is the full embed URL
+  const vidmolyEmbed = movie.video_url;
+
+  return (
+
+    <main className="min-h-screen pt-46 relative overflow-hidden" dir="rtl">
+      {/* Blurred thumbnail background */}
+      <div
+        className="absolute inset-0 -z-20 w-full h-full"
+        style={{
+          backgroundImage: `url(${movie.thumbnail_url})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(16px) scale(1.05)',
+          transform: 'scale(1.05)',
+        }}
+        aria-hidden="true"
+      ></div>
+      {/* Big black gradient bloom from bottom */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 w-full h-full"
+        style={{
+          background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.0) 90%)"
+        }}
+        aria-hidden="true"
+      ></div>
+      {/* Black gradient bloom from top */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 w-full h-full"
+        style={{
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.0) 70%)"
+        }}
+        aria-hidden="true"
+      ></div>
+
+      <div className="max-w-6xl mx-auto p-4 text-right">
+        <div className="flex flex-col pb-38 md:flex-row gap-6 mb-6">
+          <img
+            src={movie.thumbnail_url}
+            alt={movie.title}
+            className="w-60 aspect-[9/16] object-cover rounded-lg shadow"
+          />
+          <div className="flex-1 space-y-2">
+            <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
+            <div><b>وەسف:</b> {movie.description}</div>
+            <div><b>IMDb:</b> {movie.imdb_rating}</div>
+            <div><b>زمان:</b> {movie.language}</div>
+            <div><b>ماوە:</b> {movie.duration_minutes} خولەک</div>
+            <div><b>تاگەکان:</b> {movie.tags?.join("، ")}</div>
+            <div><b>وەرگێڕان:</b> {movie.translators?.join("، ")}</div>
+          </div>
+        </div>
+        <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">
+          <iframe
+            src={vidmolyEmbed}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            className="w-full h-full border-0"
+            title="Vidmoly Player"
+          />
+        </div>
+      </div>
+    </main>
+  );
+}

@@ -22,7 +22,7 @@ export default function Header() {
 
         {/* Center: nav links (centered on desktop) */}
         <div className="absolute left-1/2 inset-y-0 flex items-center transform -translate-x-1/2 hidden md:flex">
-          <ul className="flex flex-row items-center gap-8 font-semibold text-white">
+          <ul className="kurdish-text flex flex-row items-center gap-8 font-semibold text-white">
             <li>
               <Link href="/staff" className="flex items-center gap-1 hover:text-violet-400">
                 <span>ستاف</span>
