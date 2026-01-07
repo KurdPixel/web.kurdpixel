@@ -15,7 +15,6 @@ export default async function MoviesPage() {
 
   return (
     <main className="min-h-screen pt-28" dir="rtl">
-      <Trend />
       <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 p-4 justify-items-end">
         {movies?.map(movie => (
           <Link key={movie.id} href={`/movies/${movie.slug}`} className="block group text-right">
