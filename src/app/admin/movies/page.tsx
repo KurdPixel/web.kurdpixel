@@ -28,23 +28,19 @@ export default async function MoviesAdminPage() {
     const tags = (formData.get("tags") as string).split(",").map(t => t.trim()).filter(Boolean);
     const translators = (formData.get("translators") as string).split(",").map(t => t.trim()).filter(Boolean);
 
-    const { error } = await supabaseAdmin.from("movies").insert({
+    await supabaseAdmin.from("movies").insert({
       title, slug, video_url, thumbnail_url, description, imdb_rating, language, duration_minutes, tags, translators
     });
-    if (error) {
-      return { error: error.message };
-    }
-    return { success: true };
+    // Optionally, you can redirect or revalidate here if needed
   }
 
   // Delete movie server action
   async function handleDelete(formData: FormData) {
     "use server";
     const id = formData.get("id") as string;
-    if (!id) return { error: "Missing id" };
-    const { error } = await supabaseAdmin.from("movies").delete().eq("id", id);
-    if (error) return { error: error.message };
-    return { success: true };
+    if (!id) return;
+    await supabaseAdmin.from("movies").delete().eq("id", id);
+    // Optionally, you can redirect or revalidate here if needed
   }
 
   return (
