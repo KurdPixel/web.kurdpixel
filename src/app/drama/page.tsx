@@ -1,7 +1,8 @@
 export default function drama() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0f0f0f] text-white">
-      <h1 className="text-4xl font-bold">Drama Page - Access Restricted</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-3 text-center">
+      <h1 className="kurdish-text text-4xl font-bold">.بەم زووانە</h1>
+      <p className="kurdish-text font-semibold">.ئێمە شتێک دروست دەکەین کە شایەنی چاوەڕوانییە</p>
     </div>
   );
 }

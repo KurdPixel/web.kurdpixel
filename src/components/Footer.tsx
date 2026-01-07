@@ -33,8 +33,8 @@ export default function Footer() {
           </h2>
           <ul className="text-gray-300">
             <li className="mb-4">
-             <Link href="/movies" className="hover:underline">
-              فیلمەکان
+             <Link href="/drama" className="hover:underline">
+              زنجیرەکان
               </Link>
             </li>
           </ul>
