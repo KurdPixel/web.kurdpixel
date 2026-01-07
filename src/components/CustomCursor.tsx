@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement | null>(null);
-  const defaultImg = "/cursor/cursor.png";
-  const hoverImg = "/cursor/cursor-hover.png";
+  const defaultImg = "https://i.imgur.com/p8pYw4Y.png";
+  const hoverImg = "https://i.imgur.com/vvVukVy.png";
 
   useEffect(() => {
     if (typeof window === "undefined") return;
