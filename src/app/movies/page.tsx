@@ -1,6 +1,7 @@
 import React from "react";
 import supabase from "../../lib/supabaseClient";
 import Link from "next/link";
+import Trend from "../../components/Trend";
 
 export default async function MoviesPage() {
   const { data: movies, error } = await supabase
@@ -14,13 +15,14 @@ export default async function MoviesPage() {
 
   return (
     <main className="min-h-screen pt-28" dir="rtl">
+      <Trend />
       <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 p-4 justify-items-end">
         {movies?.map(movie => (
           <Link key={movie.id} href={`/movies/${movie.slug}`} className="block group text-right">
             <img
               src={movie.thumbnail_url}
               alt={movie.title}
-              className="w-full aspect-[9/16] object-cover rounded-lg shadow group-hover:scale-105 transition"
+              className="w-full .aspect-[9/16] object-cover rounded-lg shadow group-hover:scale-105 transition"
             />
             <div className="mt-2 text-center font-semibold text-white truncate">{movie.title}</div>
           </Link>

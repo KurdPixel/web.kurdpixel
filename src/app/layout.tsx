@@ -7,6 +7,8 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Trend from "../components/Trend";
 import localFont from 'next/font/local';
 
 const kurdishFont = localFont({ src: '../fonts/Kurdish.ttf' });
@@ -37,11 +39,15 @@ export default function RootLayout({
         <head>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
         </head>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          
+        <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable}`}>
           <Header />
-          
-          {children}
+
+          <main className="flex-1">
+            {children}
+          </main>
+
+          <Trend />
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
