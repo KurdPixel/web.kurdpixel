@@ -22,8 +22,6 @@ export default function Home() {
 
   return (
     <>
-      
-
       <main className="w-full h-screen flex items-center justify-center bg-[#0f0f0f]">
         <div className="relative w-full h-full">
           <div className="relative h-full overflow-hidden">
@@ -35,35 +33,45 @@ export default function Home() {
                 }`}
                 style={{ pointerEvents: current === idx ? "auto" : "none" }}
               >
-                <img src={src} className="block w-full h-full object-cover" alt={`Slide ${idx + 1}`} />
+                <img
+                  src={src}
+                  className="block w-full h-full object-cover"
+                  alt={`Slide ${idx + 1}`}
+                />
               </div>
             ))}
-          </div>
 
-          {/* Black bloom / shadow rising from bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-1/3 md:h-1/4 pointer-events-none .z-[25] .bg-gradient-to-t from-black/80 to-transparent blur-3xl opacity-90" />
-
-          <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3">
-            {images.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                className={`w-3 h-3 rounded-full ${current === idx ? "bg-white/80" : "bg-white/30"}`}
-                aria-current={current === idx}
-                aria-label={`Slide ${idx + 1}`}
-                onClick={() => goTo(idx)}
+            {/* ✅ Bottom Bloom (starts solid at bottom, fades up) */}
+            <div className="pointer-events-none absolute bottom-0 left-0 z-30 w-full h-78">
+              <div
+                className="absolute bottom-0 left-0 w-full h-full"
+                style={{
+                  background:
+                    "linear-gradient(to top, #121212 0%, rgba(18,18,18,0.9) 30%, rgba(18,18,18,0.6) 55%, rgba(18,18,18,0.3) 75%, transparent 100%)",
+                }}
               />
-            ))}
+            </div>
           </div>
 
           <button
             type="button"
-            className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer"
+            className="absolute top-0 left-0 z-40 flex items-center justify-center h-full px-4 cursor-pointer"
             onClick={prev}
           >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
-              <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m15 19-7-7 7-7" />
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50">
+              <svg
+                className="w-5 h-5 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  d="m15 19-7-7 7-7"
+                />
               </svg>
               <span className="sr-only">Previous</span>
             </span>
@@ -71,18 +79,30 @@ export default function Home() {
 
           <button
             type="button"
-            className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer"
+            className="absolute top-0 right-0 z-40 flex items-center justify-center h-full px-4 cursor-pointer"
             onClick={next}
           >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
-              <svg className="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m9 5 7 7-7 7" />
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50">
+              <svg
+                className="w-5 h-5 text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  d="m9 5 7 7-7 7"
+                />
               </svg>
               <span className="sr-only">Next</span>
             </span>
           </button>
         </div>
       </main>
+
       <Trend />
     </>
   );
