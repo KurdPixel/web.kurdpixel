@@ -11,7 +11,7 @@ export default function Trend() {
 
   useEffect(() => {
     let mounted = true;
-    fetch("/api/trend?limit=8")
+    fetch("/api/trend?limit=12")
       .then((r) => r.json())
       .then((j) => {
         if (!mounted) return;
@@ -27,12 +27,12 @@ export default function Trend() {
       <div className="max-w-6xl mx-auto px-4">
         <h3 className="text-xl font-bold mb-4">نوێترین فیلمەکان</h3>
         {loading && <div className="text-sm text-gray-400">هەڵگرتن...</div>}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {movies?.map((m) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          {movies?.slice(0, 12).map((m) => (
             <Link key={m.id} href={`/movies/${m.slug}`} className="block">
-              <div className="bg-white/5 w-40 h-56 rounded-lg overflow-hidden shadow hover:scale-105 transform transition">
-                <img src={m.thumbnail_url} alt={m.title} className="w-full h-full object-cover" />
-                <div className="p-2 text-sm font-semibold text-right">{m.title}</div>
+              <div className="bg-white/5 rounded-lg overflow-hidden shadow hover:scale-105 transform transition">
+                <img src={m.thumbnail_url} alt={m.title} className="w-full h-40 sm:h-48 md:h-56 object-cover" />
+                <div className="p-2 text-sm font-semibold text-center truncate">{m.title}</div>
               </div>
             </Link>
           ))}
