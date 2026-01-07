@@ -22,8 +22,7 @@ export default async function MoviesPage() {
               alt={movie.title}
               className="w-full aspect-[9/16] object-cover rounded-lg shadow group-hover:scale-105 transition"
             />
-            <div className="mt-2 font-semibold text-white truncate">{movie.title}</div>
-            <div className="text-xs text-gray-400 truncate">{movie.slug}</div>
+            <div className="mt-2 text-center font-semibold text-white truncate">{movie.title}</div>
           </Link>
         ))}
       </div>
