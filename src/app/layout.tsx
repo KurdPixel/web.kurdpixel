@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 import { UserButton } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 import Link from "next/link";
 
 import { Geist, Geist_Mono } from "next/font/google";
@@ -39,6 +41,8 @@ export default function RootLayout({
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
         </head>
         <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable}`}>
+          <SpeedInsights/>
+          <Analytics/>
           <Header />
 
           <main className="flex-1">
