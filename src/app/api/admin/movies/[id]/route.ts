@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import supabaseAdmin from "@/lib/supabaseServer";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ ok: false, error: "Not authenticated" }, { status: 401 });
 
-  const { id: identifier } = (await params) as { id?: string };
+  const { id: identifier } = (await context.params) as { id?: string };
   if (!identifier || identifier === "undefined") return NextResponse.json({ ok: false, error: "Missing identifier" }, { status: 400 });
 
   // detect UUID v4-ish (simple) to decide whether to query by id or slug
@@ -22,11 +22,11 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ ok: false, error: "Not authenticated" }, { status: 401 });
 
-  const { id: identifier } = (await params) as { id?: string };
+  const { id: identifier } = (await context.params) as { id?: string };
   if (!identifier || identifier === "undefined") return NextResponse.json({ ok: false, error: "Missing identifier" }, { status: 400 });
   let body: any;
   try {
