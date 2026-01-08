@@ -91,15 +91,28 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             className="w-60 .aspect-[9/16] object-cover rounded-lg shadow"
             draggable={false}
           />
-          <div className="flex-1 space-y-2">
-            <h1 className="text-3xl font-bold mb-2">{movie.title}</h1>
-            <div><b>وەسف:</b> {movie.description}</div>
-            <div><b>IMDb:</b> {movie.imdb_rating}</div>
-            <div><b>Views:</b> {viewsDisplay}</div>
-            <div><b>زمان:</b> {movie.language}</div>
-            <div><b>ماوە:</b> {movie.duration_minutes} خولەک</div>
-            <div><b>تاگەکان:</b> {movie.tags?.join("، ")}</div>
-            <div><b>وەرگێڕان:</b> {movie.translators?.join("، ")}</div>
+          <div className="flex-1 space-y-4">
+            <h1 className="text-3xl font-bold mb-6">{movie.title}</h1>
+            <div className="flex flex-wrap gap-3">
+            <div className="px-4 py-2 rounded-lg bg-yellow-500 backdrop-blur-lg border border-white/10 text-white text-sm">
+              <b className="text-black">IMDb:</b> {movie.imdb_rating}
+            </div>
+            <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
+              <b>Views:</b> {viewsDisplay}
+            </div>
+            <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
+              <b>زمان:</b> {movie.language}
+            </div>
+            <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
+              <b>ماوە:</b> {movie.duration_minutes} خولەک
+            </div>
+            </div>
+            <div className="p-4 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white">{movie.description}</div>
+            <div className="flex flex-wrap gap-2">
+            {movie.tags?.map((tag: string, idx: number) => (
+            <span key={idx} className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-lg border border-violet-400/30 text-violet-100 text-sm">{tag}</span>))}
+            </div>
+            <div><b className="text-white/100">وەرگێرانی:</b> <span className="px-3 py-1 rounded-full bg-violet-600/20 backdrop-blur-lg border border-violet-500/30 text-violet-100 text-sm">{movie.translators?.join("، ")}</span></div>
           </div>
         </div>
         <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">

@@ -2,7 +2,7 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import Clerk from "@clerk/clerk-sdk-node";
 import { redirect } from "next/navigation";
-import supabaseAdmin from "../../lib/supabaseServer";
+import supabaseAdmin from "@/lib/supabaseServer";
 
 export default async function AdminPage() {
   const { userId } = await auth();

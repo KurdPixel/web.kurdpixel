@@ -1,6 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import supabaseAdmin from "../../../lib/supabaseServer";
+import supabaseAdmin from "@/lib/supabaseServer";
 import { auth } from "@clerk/nextjs/server";
 
 
@@ -73,10 +74,13 @@ export default async function MoviesAdminPage() {
                 <div className="font-semibold">{movie.title}</div>
                 <div className="text-xs text-gray-500 truncate">{movie.video_url}</div>
               </div>
-              <form action={handleDelete}>
-                <input type="hidden" name="id" value={movie.id} />
-                <button type="submit" className="text-red-600 hover:underline">Delete</button>
-              </form>
+              <div className="flex items-center gap-4">
+                <Link href={`/admin/movies/${movie.id}/edit`} className="text-blue-600 hover:underline">Edit</Link>
+                <form action={handleDelete}>
+                  <input type="hidden" name="id" value={movie.id} />
+                  <button type="submit" className="text-red-600 hover:underline">Delete</button>
+                </form>
+              </div>
             </li>
           ))}
         </ul>
