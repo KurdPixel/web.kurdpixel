@@ -124,7 +124,7 @@ export default function MovieDetail({ movie }: Props) {
                   <b>ماوە:</b> {movie.duration_minutes} خولەک
                 </div>
               </div>
-              <div className="p-4 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white">{movie.description}</div>
+              <div className="kurdish-text p-4 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white">{movie.description}</div>
               <div className="flex flex-wrap gap-2">
                 {movie.tags?.map((tag: string, idx: number) => (
                   <span key={idx} className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-lg border border-violet-400/30 text-violet-100 text-sm">{tag}</span>
