@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  --background: #121212;
+  --foreground: #f0f0f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+@font-face {
+  font-family: 'KurdishFont';
+  src: url('../fonts/Kurdish.ttf') format('truetype');
+  unicode-range: U+0600-06FF, U+FB50-FDFF, U+FE70-FEFF, U+200C, U+061C;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Hide the native system cursor inside the site for non-form elements (disabled on touch devices)
+   Allow native cursor for inputs, buttons, selects, textareas and contenteditable regions */
+
+
+/* Only apply KurdishFont to Kurdish/Arabic Unicode chars */
+.kurdish-text {
+  font-family: 'KurdishFont', Arial, Helvetica, sans-serif;
+}
+
+/* Optional: auto-detect Kurdish/Arabic and apply font */
+/* Example usage: <span className="kurdish-text">کوردی</span> */
