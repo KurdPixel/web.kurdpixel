@@ -10,7 +10,7 @@ export default function Footer() {
         <Link href={"/"}>
         <img src="https://i.imgur.com/8Udniyn.png" className="h-11" alt="" draggable={false} />
         </Link>
-        <p className="pt-2">کوردپیکسڵ یەکەمین و پڕبینەرترین ماڵپەڕی تایبەت بە فیلم و دراما کوردی و جیهانیەکان</p>
+        <p className="kurdish-text pt-2">کوردپیکسڵ یەکەمین و پڕبینەرترین ماڵپەڕی تایبەت بە فیلم و دراما کوردی و جیهانیەکان</p>
       </div>
 
       <div className="grid grid-cols-2 gap-8 sm:gap-12 sm:grid-cols-3 text-right">
@@ -18,7 +18,7 @@ export default function Footer() {
           <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
             فیلم
           </h2>
-          <ul className="text-gray-300">
+          <ul className="kurdish-text text-gray-300">
             <li className="mb-4">
              <Link href="/movies" className="hover:underline">
               فیلمەکان
@@ -28,10 +28,10 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
+          <h2 className="kurdish-text mb-6 text-lg font-semibold text-violet-500 uppercase">
             زنجیرە
           </h2>
-          <ul className="text-gray-300">
+          <ul className="kurdish-text text-gray-300">
             <li className="mb-4">
              <Link href="/drama" className="hover:underline">
               زنجیرەکان
@@ -41,10 +41,10 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-6 text-lg font-semibold text-violet-500 uppercase">
+          <h2 className="kurdish-text mb-6 text-lg font-semibold text-violet-500 uppercase">
             دەربارە
           </h2>
-          <ul className="text-gray-300">
+          <ul className="kurdish-text text-gray-300">
             <li className="mb-4">
              <Link href="/staff" className="hover:underline">
               ستاف
@@ -58,7 +58,7 @@ export default function Footer() {
     <hr className="my-6 border-violet-500 sm:mx-auto lg:my-8" />
 
     <div className="sm:flex sm:items-center sm:justify-between text-right">
-      <span className="text-sm text-gray-600 sm:text-center">
+      <span className="kurdish-text text-sm text-gray-600 sm:text-center">
         &copy; {new Date().getFullYear()} <span className="text-violet-500">KurdPixel</span> . هەموو مافەکان پارێزراون.
       </span>
 

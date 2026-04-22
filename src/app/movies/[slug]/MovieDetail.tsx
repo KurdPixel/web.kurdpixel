@@ -115,13 +115,13 @@ export default function MovieDetail({ movie }: Props) {
                   <b className="text-black">IMDb:</b> {movie.imdb_rating}
                 </div>
                 <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
-                  <b>Views:</b> {viewsDisplay}
+                  <b className="kurdish-text">بینەر:</b> {viewsDisplay}
                 </div>
                 <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
-                  <b>زمان:</b> {movie.language}
+                  <b className="kurdish-text">زمان:</b> {movie.language}
                 </div>
                 <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
-                  <b>ماوە:</b> {movie.duration_minutes} خولەک
+                  <b className="kurdish-text">ماوە:</b> {movie.duration_minutes} خولەک
                 </div>
               </div>
               <div className="kurdish-text p-4 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white">{movie.description}</div>
@@ -130,7 +130,7 @@ export default function MovieDetail({ movie }: Props) {
                   <span key={idx} className="px-3 py-1 rounded-full bg-violet-500/20 backdrop-blur-lg border border-violet-400/30 text-violet-100 text-sm">{tag}</span>
                 ))}
               </div>
-              <div><b className="text-white/100">وەرگێرانی:</b> <span className="px-3 py-1 rounded-full bg-violet-600/20 backdrop-blur-lg border border-violet-500/30 text-violet-100 text-sm">{movie.translators?.join("، ")}</span></div>
+              <div><b className="kurdish-text">وەرگێرانی:</b> <span className="px-3 py-1 rounded-full bg-violet-600/20 backdrop-blur-lg border border-violet-500/30 text-violet-100 text-sm">{movie.translators?.join("، ")}</span></div>
             </div>
           </div>
           <div className="w-full aspect-video bg-black rounded-lg overflow-hidden">

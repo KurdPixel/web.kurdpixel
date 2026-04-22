@@ -93,7 +93,6 @@ export default function MoviesFilter({ movies }: { movies: Movie[] }) {
                   </p>
                 </div>
               </div>
-
             </div>
           </Link>
         ))}

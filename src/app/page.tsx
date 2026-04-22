@@ -58,7 +58,7 @@ export default function Home() {
     <>
       <main className="w-full h-screen flex items-center justify-center bg-[#0f0f0f]">
         {loading || images.length === 0 ? (
-          <div className="text-white text-center">Loading...</div>
+          <div className="kurdish-text text-white text-center">چاوەڕوانبە...</div>
         ) : (
           <div className="relative w-full h-full">
             <div className="relative h-full overflow-hidden">

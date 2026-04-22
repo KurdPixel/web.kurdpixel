@@ -78,19 +78,19 @@ export default function Header() {
               </li>
               <li>
                 <Link href="/drama" className="flex items-center gap-1 hover:text-violet-500">
-                  <span>زنجیرەکان</span>
+                  <span className="kurdish-text">زنجیرەکان</span>
                   <span className="material-symbols-rounded leading-none align-middle">movie</span>
                 </Link>
               </li>
               <li>
                 <Link href="/movies" className="flex items-center gap-1 hover:text-violet-500">
-                  <span>فیلمەکان</span>
+                  <span className="kurdish-text">فیلمەکان</span>
                   <span className="material-symbols-rounded leading-none align-middle">theaters</span>
                 </Link>
               </li>
               <li>
                 <Link href="/" className="flex items-center gap-1 hover:text-violet-500">
-                  <span>سەرەتا</span>
+                  <span className="kurdish-text">سەرەتا</span>
                   <span className="material-symbols-rounded leading-none align-middle">home</span>
                 </Link>
               </li>
@@ -135,27 +135,27 @@ export default function Header() {
               )}
               <li>
                 <Link href="/" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span>سەرەتا</span>
+                  <span className="kurdish-text">سەرەتا</span>
                   <span className="material-symbols-rounded leading-none align-middle">home</span>
                 </Link>
               </li>
               <li>
                 <Link href="/movies" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span>فیلمەکان</span>
+                  <span className="kurdish-text">فیلمەکان</span>
                   <span className="material-symbols-rounded leading-none align-middle">theaters</span>
                 </Link>
               </li>
               <li>
                 <Link href="/drama" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span>زنجیرەکان</span>
+                  <span className="kurdish-text">زنجیرەکان</span>
                   <span className="material-symbols-rounded leading-none align-middle">movie</span>
                 </Link>
               </li>
               <li>
-                <Link href="/staff" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span>ستاف</span>
+                 {/* <Link href="/staff" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="kurdish-text">ستاف</span>
                   <span className="material-symbols-rounded leading-none align-middle">people</span>
-                </Link>
+                </Link> */}
               </li>
             </ul>
           </div>

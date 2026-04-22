@@ -38,22 +38,22 @@ export default function AgeRestrictionModal({ isOpen, onConfirm }: Props) {
         
         <h2 className="kurdish-text text-2xl font-bold text-white mb-4">تەمەن سنووردارە</h2>
         
-        <p className="text-red-100 text-lg mb-6">
+        <p className="kurdish-text text-red-100 text-lg mb-6">
           تکایە ئەم فلیمە بۆ کەسانی تەمەن سەروو ١٨ ساڵە
 ئەگەر خوار ئەم تەمەنی تکایە سەیری مەکە، چونکە ئەم فیلمە دیمەنی نەشیاوی تێدایە
         </p>
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleConfirm}
-            className="bg-white text-red-600 font-semibold py-3 cursor-pointer px-8 rounded-lg hover:bg-red-100 transition-colors"
+            className="kurdish-text bg-white text-red-600 font-semibold py-3 cursor-pointer px-8 rounded-lg hover:bg-red-100 transition-colors"
           >
          {confirmCount === 0 ? "سەروو ١٨ ساڵم" : confirmCount === 1 ? "بەجدی؟" : "گولی وەڵا"}
           </button>
-          <a href="/" className="bg-white text-red-600 font-bold py-3 cursor-pointer px-8 rounded-lg hover:bg-red-100 transition-colors">
+          <a href="/" className="kurdish-text bg-white text-red-600 font-bold py-3 cursor-pointer px-8 rounded-lg hover:bg-red-100 transition-colors">
             گەڕانەوە
           </a>
         </div>
-        <p className="absolute bottom-1 left-1/2 -translate-x-1/2 text-sm text-center">دوایی ڕوبەڕووی شتی ٣ کەسی دەبیتەوە خاڵۆ</p>
+        <p className="kurdish-text absolute bottom-1 left-1/2 -translate-x-1/2 text-sm text-center">دوایی ڕوبەڕووی شتی ٣ کەسی دەبیتەوە خاڵۆ</p>
       </div>
     </div>
   );
