@@ -111,8 +111,8 @@ export default function MovieDetail({ movie }: Props) {
                 )}
               </div>
               <div className="flex flex-wrap gap-3">
-                <div className="px-4 py-2 rounded-lg bg-yellow-500 backdrop-blur-lg border border-white/10 text-white text-sm">
-                  <b className="text-black">IMDb:</b> {movie.imdb_rating}
+                <div className="px-4 py-2 rounded-lg bg-cyan-500 backdrop-blur-lg border border-white/10 text-white text-sm">
+                  <b className="text-black">TMDB:</b> {movie.tmdb_rating}
                 </div>
                 <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
                   <b className="kurdish-text">بینەر:</b> {viewsDisplay}

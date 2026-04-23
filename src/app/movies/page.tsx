@@ -10,7 +10,7 @@ interface Movie {
   thumbnail_url?: string;
   description?: string;
   tags?: string[];
-  imdb_rating?: number;
+  tmdb_rating?: number;
 }
 
 export default function MoviesPage() {

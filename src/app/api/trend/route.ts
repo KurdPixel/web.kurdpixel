@@ -12,7 +12,15 @@ export async function GET(req: Request) {
       .limit(limit);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ data });
+    
+    // Map imdb_rating to tmdb_rating for frontend
+    const moviesWithTMDB = (data || []).map((m: any) => ({
+      ...m,
+      tmdb_rating: m.imdb_rating,
+      imdb_rating: undefined,
+    }));
+    
+    return NextResponse.json({ data: moviesWithTMDB });
   } catch (e) {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }

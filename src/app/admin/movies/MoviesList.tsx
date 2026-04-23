@@ -23,7 +23,7 @@ export default function MoviesList({ movies, onDelete }: { movies: Movie[] | nul
           {movies.map((movie) => (
             <div key={movie.id} className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-4 flex gap-4">
               {/* Thumbnail */}
-              <div className="flex-shrink-0 w-24 h-36 rounded overflow-hidden">
+              <div className="shrink-0 w-24 h-36 rounded overflow-hidden">
                 <img
                   src={movie.thumbnail_url}
                   alt={movie.title}
@@ -44,7 +44,7 @@ export default function MoviesList({ movies, onDelete }: { movies: Movie[] | nul
               </div>
 
               {/* Actions */}
-              <div className="flex-shrink-0 flex items-center gap-2">
+              <div className="shrink-0 flex items-center gap-2">
                 <Link 
                   href={`/admin/movies/${movie.id}/edit`} 
                   className="px-4 py-2 rounded-lg bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 font-medium transition-colors"

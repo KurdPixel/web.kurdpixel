@@ -6,12 +6,13 @@ CREATE TABLE IF NOT EXISTS movies (
   video_url text NOT NULL,
   thumbnail_url text NOT NULL,
   description text,
-  imdb_rating numeric(3,1),
+  tmdb_rating numeric(3,1),
   language text,
   duration_minutes int,
   tags text[],
   translators text[],
   is_18_plus boolean DEFAULT false,
+  tmdb_movie_id integer,
   created_at timestamptz DEFAULT now()
 );
 

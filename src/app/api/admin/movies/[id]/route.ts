@@ -40,7 +40,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     video_url,
     thumbnail_url,
     description,
-    imdb_rating,
+    tmdb_rating,
     language,
     duration_minutes,
     tags,
@@ -51,7 +51,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
   try {
     // update by id when identifier is UUID, otherwise update by slug
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier as string);
-    const updater = supabaseAdmin.from("movies").update({ title, video_url, thumbnail_url, description, imdb_rating, language, duration_minutes, tags, translators, is_18_plus });
+    const updater = supabaseAdmin.from("movies").update({ title, video_url, thumbnail_url, description, tmdb_rating, language, duration_minutes, tags, translators, is_18_plus });
     const { error } = isUuid ? await updater.eq("id", identifier) : await updater.eq("slug", identifier);
 
     if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });

@@ -10,7 +10,7 @@ type Movie = {
   thumbnail_url?: string;
   description?: string;
   tags?: string[];
-  imdb_rating?: number;
+  tmdb_rating?: number;
 };
 
 export default function MoviesFilter({ movies }: { movies: Movie[] }) {
@@ -71,10 +71,10 @@ export default function MoviesFilter({ movies }: { movies: Movie[] }) {
 
               {/* Rating badge */}
               <div className="absolute top-2 right-2 z-10 flex items-center gap-1 bg-black/30 backdrop-blur-lg border border-white/10 text-white font-bold px-2 py-1 rounded-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.690h4.178c.969 0 1.371 1.240.588 1.810l-3.380 2.455a1 1 0 00-.364 1.118l1.286 3.966c.300.921-.755 1.688-1.540 1.118l-3.380-2.455a1 1 0 00-1.176 0L5.370 17.850c-.784.570-1.838-.197-1.540-1.118l1.286-3.966a1 1 0 00-.364-1.118L1.373 7.390c-.783-.570-.380-1.810.588-1.810h4.178a1 1 0 00.950-.690L9.050 2.927z" />
                 </svg>
-                <span>{movie.imdb_rating ?? "--"}</span>
+                <span>{movie.tmdb_rating ?? "--"}</span>
               </div>
 
               {/* Image */}

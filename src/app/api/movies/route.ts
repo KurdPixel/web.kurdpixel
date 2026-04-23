@@ -15,7 +15,14 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(movies || []);
+    // Rename imdb_rating to tmdb_rating for consistency
+    const moviesWithTMDB = (movies || []).map((movie: any) => ({
+      ...movie,
+      tmdb_rating: movie.imdb_rating,
+      imdb_rating: undefined,
+    }));
+
+    return NextResponse.json(moviesWithTMDB);
   } catch (err) {
     console.error("Error fetching movies:", err);
     return NextResponse.json(
