@@ -72,12 +72,9 @@ export default async function MoviesAdminPage() {
 
   return (
     <main className="min-h-screen pt-28 pb-8 px-4 bg-[#0f0f0f]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <Link href="/admin" className="text-violet-400 hover:text-violet-300 mb-4 inline-block">
-            ← Back to Admin
-          </Link>
+        <div className="mb-8 pt-2">
           <h1 className="text-3xl font-bold text-white mb-2">Manage Movies</h1>
           <p className="text-white/60">Add, edit, or remove movies from your collection</p>
         </div>

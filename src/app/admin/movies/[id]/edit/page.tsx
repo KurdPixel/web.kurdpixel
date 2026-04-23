@@ -58,7 +58,7 @@ export default async function EditMoviePage({ params }: Props) {
   if (!identifier || identifier === "undefined") {
     return (
       <main className="min-h-screen pt-36">
-        <div className="max-w-xl mx-auto bg-white/80 p-8 rounded shadow">
+        <div className="max-w-xl mx-auto bg-[#0f0f0f] p-8 rounded shadow">
           <h1 className="text-2xl font-bold mb-4">Edit Movie</h1>
           <div className="text-red-600 mb-4">Missing movie identifier in URL.</div>
           <div className="mt-4">
@@ -77,7 +77,7 @@ export default async function EditMoviePage({ params }: Props) {
   if (error || !movie) {
     return (
       <main className="min-h-screen pt-36">
-        <div className="max-w-xl mx-auto bg-white/80 p-8 rounded shadow">
+        <div className="max-w-xl mx-auto bg-[#0f0f0f] p-8 rounded shadow">
           <h1 className="text-2xl font-bold mb-4">Edit Movie</h1>
           <div className="text-red-600 mb-4">Unable to load movie{error ? `: ${error.message}` : "."}</div>
           <div className="mt-4">
