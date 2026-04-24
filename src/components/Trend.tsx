@@ -23,7 +23,7 @@ export default function Trend() {
   }, []);
 
   return (
-    <section dir="rtl" className="bg-[#121212] py-8">
+    <section className="bg-[#121212] py-8">
       <div className="max-w-6xl mx-auto px-4">
         <h3 className="kurdish-text text-xl font-bold mb-4">نوێترین فیلمەکان</h3>
 
