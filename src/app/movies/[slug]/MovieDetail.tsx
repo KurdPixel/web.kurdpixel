@@ -100,7 +100,7 @@ export default function MovieDetail({ movie }: Props) {
             <img
               src={movie.thumbnail_url}
               alt={movie.title}
-              className="w-60 .aspect-[9/16] object-cover rounded-lg shadow"
+              className="w-60 transform hover:scale-105 duration-200 .aspect-[9/16] object-cover rounded-lg shadow"
               draggable={false}
             />
             <div className="flex-1 space-y-4">

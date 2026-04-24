@@ -62,14 +62,14 @@ export default function MoviesPage() {
 
       {/* States */}
       {error && (
-        <div className="p-8 text-center text-red-600 relative z-10">
-          Error loading movies: {error}
+        <div className="kurdish-text p-8 text-center text-red-600 relative z-10">
+          هەڵە لە بارکردنی فیلمەکان: {error}
         </div>
       )}
 
       {loading && (
-        <div className="p-8 text-center text-white relative z-10">
-          Loading...
+        <div className="kurdish-text p-8 text-center text-white relative z-10">
+          چاوەڕوانبە...
         </div>
       )}
 

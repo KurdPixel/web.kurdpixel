@@ -47,7 +47,7 @@ export default function Header() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 pt-8 z-40">
+      <nav className="absolute top-8 left-0 right-0 z-40">
         <div className="mx-auto w-full max-w-6xl relative rounded-full bg-white/30 backdrop-blur-xl border border-white/30 shadow-lg flex items-center justify-between p-4">
           {/* Left: user button or sign-in/sign-up when not signed in + admin button */}
           <div className="flex items-center gap-3">
