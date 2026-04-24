@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import supabase from "@/lib/supabaseClient";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { slug: string } }
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
 
     // Get series
     const { data: series, error: seriesError } = await supabase
@@ -35,12 +35,13 @@ export async function GET(
     }
 
     // Group episodes by season
-    const episodesBySeason = episodes?.reduce((acc: any, ep: any) => {
-      const season = ep.season_number;
-      if (!acc[season]) acc[season] = [];
-      acc[season].push(ep);
-      return acc;
-    }, {}) || {};
+    const episodesBySeason =
+      episodes?.reduce((acc: any, ep: any) => {
+        const season = ep.season_number;
+        if (!acc[season]) acc[season] = [];
+        acc[season].push(ep);
+        return acc;
+      }, {}) || {};
 
     return NextResponse.json({
       ...series,
