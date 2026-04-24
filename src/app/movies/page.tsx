@@ -41,7 +41,7 @@ export default function MoviesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen pt-28 relative overflow-hidden" dir="rtl">
+    <main className="min-h-screen pt-28 relative overflow-hidden">
       
       {/* Fixed background (fixed + no scale = no duplication) */}
       <div className="fixed inset-0 -z-10">

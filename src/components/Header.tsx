@@ -77,7 +77,7 @@ export default function Header() {
                 </Link> */}
               </li>
               <li>
-                <Link href="/drama" className="flex items-center gap-1 hover:text-violet-500">
+                <Link href="/series" className="flex items-center gap-1 hover:text-violet-500">
                   <span className="kurdish-text">زنجیرەکان</span>
                   <span className="material-symbols-rounded leading-none align-middle">movie</span>
                 </Link>
