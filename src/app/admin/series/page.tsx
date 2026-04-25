@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import AddSeriesModal from "@/components/AddSeriesModal";
 
 interface Series {
   id: string;
@@ -56,12 +57,7 @@ export default function AdminSeriesPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Manage Series</h1>
-          <Link
-            href="/admin/series/new"
-            className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors"
-          >
-            + New Series
-          </Link>
+          <AddSeriesModal onSeriesAdded={fetchSeries} />
         </div>
 
         {/* Content */}

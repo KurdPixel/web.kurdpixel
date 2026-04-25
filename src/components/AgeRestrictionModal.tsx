@@ -53,7 +53,6 @@ export default function AgeRestrictionModal({ isOpen, onConfirm }: Props) {
             گەڕانەوە
           </a>
         </div>
-        <p className="kurdish-text absolute bottom-1 left-1/2 -translate-x-1/2 text-sm text-center">دوایی ڕوبەڕووی شتی ٣ کەسی دەبیتەوە خاڵۆ</p>
       </div>
     </div>
   );

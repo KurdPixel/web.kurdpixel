@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 
 interface Episode {
@@ -21,25 +21,31 @@ interface Series {
 export default function SeriesEpisodesPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const [series, setSeries] = useState<Series | null>(null);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
-  }, [params.id]);
+  }, [id]);
 
   const fetchData = async () => {
     try {
       const res = await fetch(`/api/admin/series`);
       const allSeries = await res.json();
-      const currentSeries = allSeries.find((s: Series) => s.id === params.id);
+      const currentSeries = allSeries.find((s: Series) => s.id === id);
       
       if (currentSeries) {
         setSeries(currentSeries);
-        // TODO: Fetch episodes for this series
+        // Fetch episodes for this series
+        const episodesRes = await fetch(`/api/admin/series/episodes?series_id=${id}`);
+        if (episodesRes.ok) {
+          const data = await episodesRes.json();
+          setEpisodes(data.episodes || []);
+        }
       }
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -87,7 +93,7 @@ export default function SeriesEpisodesPage({
             <p className="text-gray-400 text-sm">Episodes</p>
           </div>
           <Link
-            href={`/admin/series/${params.id}/episodes/new`}
+            href={`/admin/series/${id}/episodes/new`}
             className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors"
           >
             + New Episode

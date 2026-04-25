@@ -2,21 +2,49 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import supabaseAdmin from "@/lib/supabaseServer";
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { data: admin } = await supabaseAdmin
-      .from("admins")
-      .select("id")
-      .eq("clerk_id", userId)
-      .single();
+    const { searchParams } = new URL(req.url);
+    const series_id = searchParams.get("series_id");
 
-    if (!admin) {
-      return NextResponse.json({ error: "Admin access denied" }, { status: 403 });
+    if (!series_id) {
+      return NextResponse.json(
+        { error: "Missing series_id parameter" },
+        { status: 400 }
+      );
+    }
+
+    const { data: episodes, error } = await supabaseAdmin
+      .from("episodes")
+      .select("*")
+      .eq("series_id", series_id)
+      .order("season_number", { ascending: true })
+      .order("episode_number", { ascending: true });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ episodes });
+  } catch (err: any) {
+    console.error("Error fetching episodes:", err);
+    return NextResponse.json(
+      { error: err.message || "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();

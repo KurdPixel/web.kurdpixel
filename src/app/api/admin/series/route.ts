@@ -5,21 +5,9 @@ import supabase from "@/lib/supabaseClient";
 
 export async function GET() {
   try {
-    // Verify admin
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Check if user is admin in Supabase
-    const { data: admin, error: adminError } = await supabaseAdmin
-      .from("admins")
-      .select("id")
-      .eq("clerk_id", userId)
-      .single();
-
-    if (adminError || !admin) {
-      return NextResponse.json({ error: "Admin access denied" }, { status: 403 });
     }
 
     // Fetch all series
@@ -41,25 +29,14 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    // Verify admin
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { data: admin, error: adminError } = await supabaseAdmin
-      .from("admins")
-      .select("id")
-      .eq("clerk_id", userId)
-      .single();
-
-    if (adminError || !admin) {
-      return NextResponse.json({ error: "Admin access denied" }, { status: 403 });
-    }
-
     // Parse request
     const body = await req.json();
-    const { title, description, cover_image_url, thumbnail_url, total_seasons, tmdb_rating, language, tags, is_18_plus } = body;
+    const { title, description, cover_image_url, thumbnail_url, total_seasons, tmdb_rating, language, tags, is_18_plus, episodes, tmdb_series_id } = body;
 
     if (!title || !cover_image_url) {
       return NextResponse.json(
@@ -85,12 +62,37 @@ export async function POST(req: Request) {
         language,
         tags: tags || [],
         is_18_plus: is_18_plus || false,
+        tmdb_series_id,
       })
       .select()
       .single();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // Insert episodes if provided
+    if (episodes && episodes.length > 0) {
+      const episodesToInsert = episodes.map((ep: any) => ({
+        series_id: series.id,
+        season_number: ep.season_number,
+        episode_number: ep.episode_number,
+        title: ep.title,
+        description: ep.description || "",
+        video_url: ep.video_url,
+        thumbnail_url: ep.thumbnail_url,
+        tmdb_rating: 0,
+        is_18_plus: false,
+      }));
+
+      const { error: episodesError } = await supabaseAdmin
+        .from("episodes")
+        .insert(episodesToInsert);
+
+      if (episodesError) {
+        console.error("Error inserting episodes:", episodesError);
+        // Don't fail if episodes fail to insert - series was already created
+      }
     }
 
     return NextResponse.json({ ok: true, series });

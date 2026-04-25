@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 
 interface Series {
@@ -12,8 +12,9 @@ interface Series {
 export default function NewEpisodePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const router = useRouter();
   const [series, setSeries] = useState<Series | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,14 +32,21 @@ export default function NewEpisodePage({
 
   useEffect(() => {
     fetchSeries();
-  }, [params.id]);
+  }, [id]);
 
   const fetchSeries = async () => {
     try {
       const res = await fetch(`/api/admin/series`);
       const allSeries = await res.json();
-      const current = allSeries.find((s: Series) => s.id === params.id);
+      const current = allSeries.find((s: Series) => s.id === id);
       setSeries(current);
+      // Auto-set thumbnail from series
+      if (current?.thumbnail_url) {
+        setFormData((prev) => ({
+          ...prev,
+          thumbnail_url: current.thumbnail_url,
+        }));
+      }
     } catch (err) {
       console.error("Error fetching series:", err);
     }
@@ -65,7 +73,7 @@ export default function NewEpisodePage({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          series_id: params.id,
+          series_id: id,
           season_number: parseInt(formData.season_number as any),
           episode_number: parseInt(formData.episode_number as any),
           title: formData.title,
@@ -82,7 +90,7 @@ export default function NewEpisodePage({
         throw new Error(data.error || "Failed to create episode");
       }
 
-      router.push(`/admin/series/${params.id}/episodes`);
+      router.push(`/admin/series/${id}/episodes`);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -195,18 +203,17 @@ export default function NewEpisodePage({
             />
           </div>
 
-          {/* Thumbnail */}
+          {/* Thumbnail - Auto-filled from Series */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
-              Thumbnail URL
+              Thumbnail (Auto-filled from series)
             </label>
             <input
               type="url"
-              name="thumbnail_url"
               value={formData.thumbnail_url}
-              onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="https://example.com/thumb.jpg"
+              disabled
+              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-gray-400 cursor-not-allowed"
+              placeholder="Using series thumbnail..."
             />
           </div>
 

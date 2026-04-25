@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import AgeRestrictionModal from "@/components/AgeRestrictionModal";
 
 interface Episode {
@@ -29,7 +29,8 @@ interface SeriesDetail {
   episodes: { [key: number]: Episode[] };
 }
 
-export default function SeriesDetailPage({ params }: { params: { slug: string } }) {
+export default function SeriesDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   const [series, setSeries] = useState<SeriesDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +43,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
     const fetchSeries = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/series/${params.slug}`);
+        const res = await fetch(`/api/series/${slug}`);
         if (!res.ok) {
           throw new Error("Series not found");
         }
@@ -70,7 +71,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
     };
 
     fetchSeries();
-  }, [params.slug, hasConfirmed]);
+  }, [slug, hasConfirmed]);
 
   const handleAgeConfirm = () => {
     setShowAgeModal(false);
@@ -164,7 +165,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
                   </div>
                 )}
                 <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
-                  <b>فصلەکان:</b> {series.total_seasons}
+                  <b>وەرزەکان:</b> {series.total_seasons}
                 </div>
                 {series.language && (
                   <div className="px-4 py-2 rounded-lg bg-black/30 backdrop-blur-lg border border-white/10 text-white text-sm">
@@ -237,7 +238,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
           <div>
             {/* Season Selector */}
             <div className="mb-6">
-              <h3 className="text-lg font-bold mb-3">فصلەکان</h3>
+              <h3 className="text-lg font-bold mb-3">وەرزەکان</h3>
               <div className="flex flex-wrap gap-2">
                 {seasons.map((season) => (
                   <button
@@ -249,7 +250,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
                         : "bg-white/10 text-gray-300 hover:bg-white/20"
                     }`}
                   >
-                    فصل {season}
+                    {season}
                   </button>
                 ))}
               </div>
@@ -258,7 +259,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
             {/* Episodes Grid */}
             <div>
               <h3 className="text-lg font-bold mb-3">
-                بەشەکان (فصل {selectedSeason})
+                ئەڵقەکان
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {episodes.map((ep) => (
@@ -271,10 +272,7 @@ export default function SeriesDetailPage({ params }: { params: { slug: string } 
                         : "bg-white/5 border-white/10 hover:border-white/30"
                     }`}
                   >
-                    <div className="font-semibold text-sm mb-1">
-                      بەشی {ep.episode_number}
-                    </div>
-                    <div className="text-xs text-gray-400">{ep.title}</div>
+                    <div className="text-xs text-gray-400">{ep.title} {ep.episode_number}</div>
                   </button>
                 ))}
               </div>

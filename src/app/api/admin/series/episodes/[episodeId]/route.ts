@@ -14,16 +14,6 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { data: admin } = await supabaseAdmin
-      .from("admins")
-      .select("id")
-      .eq("clerk_id", userId)
-      .single();
-
-    if (!admin) {
-      return NextResponse.json({ error: "Admin access denied" }, { status: 403 });
-    }
-
     const { error } = await supabaseAdmin
       .from("episodes")
       .delete()
