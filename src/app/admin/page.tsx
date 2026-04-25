@@ -50,23 +50,23 @@ export default async function AdminPage() {
 
     // Admin — render admin UI
     return (
-      <main className="min-h-screen pt-36 pb-12 px-4 bg-[#0f0f0f]">
+      <main className="min-h-screen pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2 text-white">Admin Dashboard</h1>
-          <p className="mb-8 text-white/60">Welcome, {email} — you have admin access.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-white">Admin Dashboard</h1>
+          <p className="mb-6 sm:mb-8 text-white/60 text-sm sm:text-base">Welcome, {email} — you have admin access.</p>
 
           {/* Admin Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {/* Movies Card */}
             <Link href="/admin/movies">
-              <div className="group cursor-pointer h-64 rounded-xl bg-gradient-to-br from-violet-600/20 to-purple-600/20 border border-white/20 backdrop-blur-xl p-8 hover:border-violet-400/50 transition-all hover:shadow-lg hover:shadow-violet-600/20">
+              <div className="group cursor-pointer min-h-56 sm:min-h-60 md:h-64 rounded-lg md:rounded-xl bg-gradient-to-br from-violet-600/20 to-purple-600/20 border border-white/20 backdrop-blur-xl p-4 sm:p-6 md:p-8 hover:border-violet-400/50 transition-all hover:shadow-lg hover:shadow-violet-600/20">
                 <div className="flex flex-col h-full justify-between">
                   <div>
-                    <div className="inline-flex p-3 rounded-lg bg-violet-600/30 mb-4 group-hover:bg-violet-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-3xl text-violet-300">theaters</span>
+                    <div className="inline-flex p-2 sm:p-3 rounded-lg bg-violet-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-violet-600/50 transition-colors">
+                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-violet-300">theaters</span>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Movies</h2>
-                    <p className="text-white/60 text-sm">Manage movies, add new movies, edit and delete existing ones.</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">Movies</h2>
+                    <p className="text-white/60 text-xs sm:text-sm">Manage movies, add new movies, edit and delete existing ones.</p>
                   </div>
                   <div className="flex items-center text-violet-300 group-hover:translate-x-2 transition-transform">
                     <span className="material-symbols-rounded">arrow_forward</span>
@@ -77,14 +77,14 @@ export default async function AdminPage() {
 
             {/* Series Card */}
             <Link href="/admin/series">
-              <div className="group cursor-pointer h-64 rounded-xl bg-gradient-to-br from-cyan-600/20 to-blue-600/20 border border-white/20 backdrop-blur-xl p-8 hover:border-cyan-400/50 transition-all hover:shadow-lg hover:shadow-cyan-600/20">
+              <div className="group cursor-pointer min-h-56 sm:min-h-60 md:h-64 rounded-lg md:rounded-xl bg-gradient-to-br from-cyan-600/20 to-blue-600/20 border border-white/20 backdrop-blur-xl p-4 sm:p-6 md:p-8 hover:border-cyan-400/50 transition-all hover:shadow-lg hover:shadow-cyan-600/20">
                 <div className="flex flex-col h-full justify-between">
                   <div>
-                    <div className="inline-flex p-3 rounded-lg bg-cyan-600/30 mb-4 group-hover:bg-cyan-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-3xl text-cyan-300">tv</span>
+                    <div className="inline-flex p-2 sm:p-3 rounded-lg bg-cyan-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-cyan-600/50 transition-colors">
+                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-cyan-300">tv</span>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">TV Series</h2>
-                    <p className="text-white/60 text-sm">Manage series, add new series, create episodes, edit and delete existing ones.</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">TV Series</h2>
+                    <p className="text-white/60 text-xs sm:text-sm">Manage series, add new series, create episodes, edit and delete existing ones.</p>
                   </div>
                   <div className="flex items-center text-cyan-300 group-hover:translate-x-2 transition-transform">
                     <span className="material-symbols-rounded">arrow_forward</span>
@@ -95,14 +95,14 @@ export default async function AdminPage() {
 
             {/* Slides Card */}
             <Link href="/admin/slides">
-              <div className="group cursor-pointer h-64 rounded-xl bg-gradient-to-br from-orange-600/20 to-red-600/20 border border-white/20 backdrop-blur-xl p-8 hover:border-orange-400/50 transition-all hover:shadow-lg hover:shadow-orange-600/20">
+              <div className="group cursor-pointer min-h-56 sm:min-h-60 md:h-64 rounded-lg md:rounded-xl bg-gradient-to-br from-orange-600/20 to-red-600/20 border border-white/20 backdrop-blur-xl p-4 sm:p-6 md:p-8 hover:border-orange-400/50 transition-all hover:shadow-lg hover:shadow-orange-600/20">
                 <div className="flex flex-col h-full justify-between">
                   <div>
-                    <div className="inline-flex p-3 rounded-lg bg-orange-600/30 mb-4 group-hover:bg-orange-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-3xl text-orange-300">image</span>
+                    <div className="inline-flex p-2 sm:p-3 rounded-lg bg-orange-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-orange-600/50 transition-colors">
+                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-orange-300">image</span>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Carousel Slides</h2>
-                    <p className="text-white/60 text-sm">Manage carousel slides, add new slides with titles, descriptions, and watch links.</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">Carousel Slides</h2>
+                    <p className="text-white/60 text-xs sm:text-sm">Manage carousel slides, add new slides with titles, descriptions, and watch links.</p>
                   </div>
                   <div className="flex items-center text-orange-300 group-hover:translate-x-2 transition-transform">
                     <span className="material-symbols-rounded">arrow_forward</span>

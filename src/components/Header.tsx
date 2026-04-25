@@ -81,15 +81,15 @@ export default function Header() {
   return (
     <>
       {/* HEADER */}
-      <nav className="absolute top-6 left-0 z-50 w-full px-4">
+      <nav className="absolute top-3 sm:top-4 md:top-6 left-0 z-50 w-full px-3 sm:px-4">
         <div className="w-full flex items-center justify-between">
 
           {/* LEFT */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/">
               <img
                 src="https://i.imgur.com/8Udniyn.png"
-                className="h-8"
+                className="h-6 sm:h-7 md:h-8"
                 draggable={false}
               />
             </Link>
@@ -97,9 +97,9 @@ export default function Header() {
             {isSignedIn && isAdmin && !loadingAdmin && (
               <Link
                 href="/admin"
-                className="p-2 rounded-full text-white hover:bg-white/30"
+                className="p-1.5 sm:p-2 rounded-full text-white hover:bg-white/30 transition"
               >
-                <span className="material-symbols-rounded">
+                <span className="material-symbols-rounded text-xl sm:text-[24px]">
                   admin_panel_settings
                 </span>
               </Link>
@@ -163,25 +163,25 @@ export default function Header() {
           {/* MOBILE */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-full text-white hover:bg-white/20"
+            className="md:hidden p-1.5 sm:p-2 rounded-full text-white hover:bg-white/20 transition"
           >
-            <span className="material-symbols-rounded">menu</span>
+            <span className="material-symbols-rounded text-xl sm:text-[24px]">menu</span>
           </button>
         </div>
       </nav>
 
       {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="fixed top-20 left-4 right-4 z-40 md:hidden">
-          <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-4 shadow-lg">
-            <div className="flex flex-col gap-3">
+        <div className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-40 md:hidden">
+          <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-3 sm:p-4 shadow-lg">
+            <div className="flex flex-col gap-2 sm:gap-3">
 
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition text-sm sm:text-base
                     ${
                       isActive(item.href)
                         ? "bg-white text-black"
@@ -189,7 +189,7 @@ export default function Header() {
                     }
                   `}
                 >
-                  <span className="material-symbols-rounded">
+                  <span className="material-symbols-rounded text-[20px]">
                     {item.icon}
                   </span>
                   <span className="kurdish-text">{item.name}</span>
@@ -200,9 +200,9 @@ export default function Header() {
                 <Link
                   href="/admin"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-white hover:bg-white/30"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full text-white hover:bg-white/30 transition text-sm sm:text-base"
                 >
-                  <span className="material-symbols-rounded">
+                  <span className="material-symbols-rounded text-[20px]">
                     admin_panel_settings
                   </span>
                   Admin

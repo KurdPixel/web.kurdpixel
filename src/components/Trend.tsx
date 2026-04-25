@@ -88,7 +88,7 @@ export default function Trend() {
 
       <div className="max-w-9/12 mx-auto px-4">
 
-        <h3 className="kurdish-text text-xl font-bold mb-4">
+        <h3 className="kurdish-text text-lg sm:text-xl font-bold mb-4">
           نوێترین فیلمەکان
         </h3>
 
@@ -98,18 +98,18 @@ export default function Trend() {
           </div>
         )}
 
-        <div className="grid grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
 
           {movies?.slice(0, 10).map((m, index) => (
             <Link key={m.id} href={`/movies/${m.slug}`} className="block transform duration-300 hover:scale-105">
               <div
-                className="group relative bg-white/5 rounded-lg border border-gray-800 overflow-hidden shadow-sm hover:scale-105 transition duration-200 cursor-pointer animate-pop-in"
+                className="group relative bg-white/5 rounded-lg border border-gray-800 overflow-hidden hover:scale-105 transition duration-300 cursor-pointer animate-pop-in"
                 style={{
                   animationDelay: `${index * 100}ms`,
                 }}
               >
 
-                <div className="relative w-full h-72 overflow-hidden">
+                <div className="relative w-full h-40 sm:h-48 md:h-56 lg:h-64 overflow-hidden">
 
                   <img
                     src={m.thumbnail_url}

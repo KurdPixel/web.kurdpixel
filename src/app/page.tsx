@@ -109,23 +109,23 @@ export default function Home() {
             {/* HERO CONTENT */}
             {slides[current] && (
               <div className="absolute inset-0 z-40 flex items-center">
-                <div className="w-full flex justify-end px-10 md:px-20">
+                <div className="w-full flex justify-end px-4 sm:px-6 md:px-10 lg:px-20">
 
                   <div className="w-full flex flex-col items-end text-right">
 
-                    <h2 className="text-5xl md:text-6xl font-bold text-white w-full">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white w-full">
                       {slides[current].title}
                     </h2>
 
-                    <p className="kurdish-text text-gray-200 text-lg md:text-xl mt-4 mb-7 max-w-xl w-full">
+                    <p className="kurdish-text text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mt-3 sm:mt-4 md:mt-6 mb-4 sm:mb-5 md:mb-7 max-w-xl w-full">
                       {slides[current].description}
                     </p>
 
                     <Link
                       href={`/movies/${slides[current].watch_url}`}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold hover:scale-105 transition w-fit"
+                      className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full bg-white text-black font-semibold hover:scale-105 transition w-fit text-sm sm:text-base"
                     >
-                      <span className="material-symbols-rounded text-[20px]">
+                      <span className="material-symbols-rounded text-[18px] sm:text-[20px]">
                         play_arrow
                       </span>
                       Play

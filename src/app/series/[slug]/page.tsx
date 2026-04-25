@@ -141,62 +141,62 @@ export default function SeriesDetailPage({
           />
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 pt-32 pb-20">
+        <div className="max-w-6xl mx-auto px-4 pt-24 sm:pt-28 md:pt-32 pb-12 md:pb-20">
 
           {/* ================= HEADER (MATCH MOVIE STYLE) ================= */}
-          <div className="flex flex-col md:flex-row-reverse gap-6 mb-10">
+          <div className="flex flex-col md:flex-row-reverse gap-4 md:gap-6 mb-8 md:mb-10">
 
             {/* POSTER RIGHT SIDE */}
             <img
               src={series.cover_image_url}
-              className="w-64 rounded-lg shadow-lg object-cover hover:scale-105 transition"
+              className="w-full sm:w-56 md:w-64 rounded-lg shadow-lg object-cover hover:scale-105 transition mx-auto md:mx-0"
               draggable={false}
             />
 
             {/* INFO */}
-            <div className="flex-1 space-y-4 text-right">
+            <div className="flex-1 space-y-3 md:space-y-4 text-right">
 
-              <div className="flex items-center gap-3 justify-end">
-                <h1 className="text-4xl font-bold">{series.title}</h1>
+              <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 md:justify-end flex-wrap">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{series.title}</h1>
 
                 {series.is_18_plus && (
-                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm">
+                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm flex-shrink-0">
                     +18
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-wrap gap-3 justify-end">
+              <div className="flex flex-wrap gap-2 md:gap-3 md:justify-end">
 
                 {series.tmdb_rating && (
-                  <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-sm">
+                  <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
                     TMDB: {series.tmdb_rating}
                   </div>
                 )}
 
-                <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-sm">
+                <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
                   وەرزەکان: {series.total_seasons}
                 </div>
 
                 {series.language && (
-                  <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-sm">
+                  <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
                     زمان: {series.language}
                   </div>
                 )}
               </div>
 
               {series.description && (
-                <p className="text-gray-300 bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-lg">
+                <p className="text-gray-300 text-sm md:text-base bg-white/5 backdrop-blur-md border border-white/10 p-3 md:p-4 rounded-lg">
                   {series.description}
                 </p>
               )}
 
               {series.tags && (
-                <div className="flex flex-wrap gap-2 justify-end">
+                <div className="flex flex-wrap gap-2 md:justify-end">
                   {series.tags.map((tag, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-100 text-sm"
+                      className="px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-100 text-xs md:text-sm"
                     >
                       {tag}
                     </span>
@@ -209,8 +209,8 @@ export default function SeriesDetailPage({
 
           {/* ================= PLAYER ================= */}
           {selectedEpisode && (
-            <div className="mb-10">
-              <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
+            <div className="mb-8 md:mb-10">
+              <div className="w-full aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden">
                 <iframe
                   src={selectedEpisode.video_url}
                   className="w-full h-full border-0"
@@ -222,15 +222,15 @@ export default function SeriesDetailPage({
           )}
 
           {/* ================= SEASONS ================= */}
-          <div className="mb-6 text-right">
-            <h3 className="text-lg font-bold mb-3">وەرزەکان</h3>
+          <div className="mb-4 md:mb-6 text-right">
+            <h3 className="text-base md:text-lg font-bold mb-2 md:mb-3">وەرزەکان</h3>
 
-            <div className="flex flex-wrap gap-2 justify-end">
+            <div className="flex flex-wrap gap-1 sm:gap-2 md:gap-2 justify-end">
               {seasons.map((season) => (
                 <button
                   key={season}
                   onClick={() => handleSeasonChange(season)}
-                  className={`px-4 py-2 rounded-lg transition ${
+                  className={`px-3 sm:px-4 py-1 md:py-2 rounded-lg text-sm md:text-base transition ${
                     selectedSeason === season
                       ? "bg-violet-500 text-white"
                       : "bg-white/10 text-gray-300 hover:bg-white/20"
@@ -243,18 +243,18 @@ export default function SeriesDetailPage({
           </div>
 
           {/* ================= EPISODES ================= */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2 md:gap-3">
             {episodes.map((ep) => (
               <button
                 key={ep.id}
                 onClick={() => handleEpisodeSelect(ep)}
-                className={`p-3 rounded-lg text-right border transition ${
+                className={`p-2 md:p-3 rounded-lg text-right border text-xs md:text-sm transition ${
                   selectedEpisode?.id === ep.id
                     ? "bg-violet-500/30 border-violet-500"
                     : "bg-white/5 border-white/10 hover:border-white/30"
                 }`}
               >
-                <div className="text-sm">{ep.title}</div>
+                <div>{ep.title}</div>
               </button>
             ))}
           </div>

@@ -9,25 +9,25 @@ export default function Footer() {
   const isHomePage = pathname === "/";
 
   return (
-    <footer className={`py-10 ${isHomePage ? "bg-[#0f0f0f]" : "bg-transparent"}`}>
+    <footer className={`py-6 sm:py-8 md:py-10 ${isHomePage ? "bg-[#0f0f0f]" : "bg-transparent"}`}>
 
       <div className="max-w-6xl mx-auto flex flex-col items-center text-center px-4">
 
         {/* LOGO + DISCORD ROW */}
-        <div className="flex items-center justify-center gap-5 py-2">
+        <div className="flex items-center justify-center gap-3 sm:gap-5 py-2">
 
           {/* LOGO */}
           <Link href="/">
             <img
               src="https://i.imgur.com/8Udniyn.png"
-              className="h-10"
+              className="h-8 sm:h-9 md:h-10"
               alt="logo"
               draggable={false}
             />
           </Link>
 
           {/* DIVIDER */}
-          <span className="text-gray-500 text-lg select-none">|</span>
+          <span className="text-gray-500 text-sm sm:text-lg select-none">|</span>
 
           {/* DISCORD ICON (TRANSPARENT CLEAN STYLE) */}
           
@@ -36,7 +36,7 @@ export default function Footer() {
             className="group flex items-center justify-center"
           >
             <svg
-              className="w-6 h-6 text-gray-400 group-hover:text-white transition"
+              className="w-5 sm:w-6 h-5 sm:h-6 text-gray-400 group-hover:text-white transition"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -47,12 +47,12 @@ export default function Footer() {
         </div>
 
         {/* DESCRIPTION */}
-        <p className="kurdish-text text-gray-400 text-sm mt-5">
+        <p className="kurdish-text text-gray-400 text-xs sm:text-sm mt-3 md:mt-5">
           کوردپیکسڵ یەکەمین و پڕبینەرترین ماڵپەڕی تایبەت بە فیلم و دراما کوردی و جیهانیەکان
         </p>
 
         {/* COPYRIGHT */}
-        <span className="text-gray-600 text-xs mt-1">
+        <span className="text-gray-600 text-xs mt-1 md:mt-2">
           © {new Date().getFullYear()}{" "}
           <span className="text-violet-400 font-semibold">KurdPixel</span> —
           هەموو مافەکان پارێزراون
