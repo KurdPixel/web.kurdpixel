@@ -122,7 +122,9 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                ref={(el) => (itemRefs.current[i] = el)}
+                ref={(el) => {
+                  itemRefs.current[i] = el;
+                }}
                 className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium transition-all
                   ${
                     isActive(item.href)
