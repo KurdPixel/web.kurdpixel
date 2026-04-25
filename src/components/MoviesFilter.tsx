@@ -83,11 +83,7 @@ export default function MoviesFilter({ movies }: { movies: Movie[] }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 py-4 sm:gap-5 md:gap-6">
 
         {filtered.map((movie, index) => (
-          <Link
-            key={movie.id}
-            href={`/movies/${movie.slug}`}
-            className="block group w-full"
-          >
+          <Link key={movie.id} href={`/movies/${movie.slug}`} className="block group w-full">
             <div
               className={`
                 relative bg-white/5 rounded-xl border border-gray-800 

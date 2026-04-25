@@ -19,19 +19,15 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Fetch slides from database
   useEffect(() => {
     const fetchSlides = async () => {
       try {
         const res = await fetch("/api/slides");
-        if (res.ok) {
-          const data: Slide[] = await res.json();
-          setSlides(data);
-          const urls = data.map((slide) => slide.image_url);
-          setImages(urls);
-        }
+        const data: Slide[] = await res.json();
+        setSlides(data);
+        setImages(data.map((s) => s.image_url));
       } catch (err) {
-        console.error("Failed to fetch slides:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -41,12 +37,10 @@ export default function Home() {
   }, []);
 
   const total = images.length;
-  const prev = () => setCurrent((c) => (c - 1 + total) % total);
-  const next = () => setCurrent((c) => (c + 1) % total);
 
-  // Auto-slide every 10 seconds
   useEffect(() => {
-    if (total === 0) return;
+    if (!total) return;
+
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % total);
     }, 10000);
@@ -54,115 +48,120 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [total]);
 
+  const currentImage = images[current];
+
   return (
     <>
-      <main className="w-full h-screen flex items-center justify-center bg-[#0f0f0f]">
-        {loading || images.length === 0 ? (
-          <div className="kurdish-text text-white text-center">چاوەڕوانبە...</div>
+      {/* ================= HERO ================= */}
+      <main className="w-full h-screen bg-[#0f0f0f] overflow-hidden relative">
+
+        {loading || !currentImage ? (
+          <div className="h-full flex items-center justify-center text-white">
+            چاوەڕوانبە...
+          </div>
         ) : (
           <div className="relative w-full h-full">
-            <div className="relative h-full overflow-hidden">
-              {images.map((src, idx) => (
-                <div
-                  key={idx}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    current === idx ? "opacity-100 z-20" : "opacity-0 z-10"
-                  }`}
-                  style={{ pointerEvents: current === idx ? "auto" : "none" }}
-                >
-                  <img
-                    src={src}
-                    className="block w-full h-full object-cover"
-                    alt={`Slide ${idx + 1}`}
-                    draggable={false}
-                    onDragStart={(e) => e.preventDefault()}
-                  />
-                </div>
-              ))}
 
-              {/* ✅ Bottom Bloom (starts solid at bottom, fades up) */}
-              <div className="pointer-events-none absolute bottom-0 left-0 z-30 w-full h-78">
-                <div
-                  className="absolute bottom-0 left-0 w-full h-full"
-                  style={{
-                    background:
-                      "linear-gradient(to top, #121212 0%, rgba(18,18,18,0.9) 30%, rgba(18,18,18,0.6) 55%, rgba(18,18,18,0.3) 75%, transparent 100%)",
-                  }}
-                />
-              </div>
-
-              {/* Slide Info */}
-              {slides[current] && (
-                <div className="pointer-events-auto absolute bottom-38 left-0 z-30 w-full p-8" dir="rtl">
-                  <div className="max-w-6xl mx-auto text-right">
-                    {slides[current].title && (
-                      <h2 className="text-4xl font-bold text-white mb-3">{slides[current].title}</h2>
-                    )}
-                    {slides[current].description && (
-                      <p className="kurdish-text text-gray-100 font-semibold text-xl mb-6 max-w-2xl">{slides[current].description}</p>
-                    )}
-                    {slides[current].watch_url && (
-                      <Link href={`/movies/${slides[current].watch_url}`} className="inline-block px-8 py-3 rounded-lg opacity-75 hover:opacity-100 bg-violet-600 hover:bg-violet-700 hover:scale-105 text-white font-semibold transition-all duration-300 ease-out">
-                        Watch Now
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              )}
+            {/* 🌫️ GLOBAL SOFT ATMOSPHERE */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={currentImage}
+                className="w-full h-full object-cover scale-110 blur-3xl opacity-50"
+                draggable={false}
+              />
             </div>
 
-            <button
-              type="button"
-              className="absolute top-1/2 left-4 z-40 -translate-y-1/2 cursor-pointer"
-              onClick={prev}
-            >
-              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 transition-colors">
-                <svg
-                  className="w-5 h-5 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="m15 19-7-7 7-7"
-                  />
-                </svg>
-                <span className="sr-only">Previous</span>
-              </span>
-            </button>
+            {/* MAIN SLIDES */}
+            {images.map((src, idx) => (
+              <div
+                key={idx}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out z-10 ${
+                  current === idx ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <img
+                  src={src}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </div>
+            ))}
 
-            <button
-              type="button"
-              className="absolute top-1/2 right-4 z-40 -translate-y-1/2 cursor-pointer"
-              onClick={next}
-            >
-              <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 hover:bg-white/50 transition-colors">
-                <svg
-                  className="w-5 h-5 text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="m9 5 7 7-7 7"
-                  />
-                </svg>
-                <span className="sr-only">Next</span>
-              </span>
-            </button>
+            {/* DARK OVERLAY */}
+            <div className="absolute inset-0 bg-black/60 z-20" />
+
+            {/* ⭐ NEW: SOFT MIXING BLOOM (THE FIX) */}
+            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-96 z-30">
+              <div className="relative w-full h-full">
+
+                {/* blurred continuation of image */}
+                <img
+                  src={currentImage}
+                  className="absolute bottom-0 w-full h-full object-cover blur-2xl opacity-25 scale-110"
+                  draggable={false}
+                />
+
+                {/* extra soft fade into black */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-[#0f0f0f]" />
+              </div>
+            </div>
+
+            {/* HERO CONTENT */}
+            {slides[current] && (
+              <div className="absolute inset-0 z-40 flex items-center">
+                <div className="w-full flex justify-end px-10 md:px-20">
+
+                  <div className="w-full flex flex-col items-end text-right">
+
+                    <h2 className="text-5xl md:text-6xl font-bold text-white w-full">
+                      {slides[current].title}
+                    </h2>
+
+                    <p className="kurdish-text text-gray-200 text-lg md:text-xl mt-4 mb-7 max-w-xl w-full">
+                      {slides[current].description}
+                    </p>
+
+                    <Link
+                      href={`/movies/${slides[current].watch_url}`}
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold hover:scale-105 transition w-fit"
+                    >
+                      <span className="material-symbols-rounded text-[20px]">
+                        play_arrow
+                      </span>
+                      Play
+                    </Link>
+
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
 
-      <Trend />
+      {/* ================= TREND ================= */}
+      <div className="relative bg-[#0f0f0f] overflow-hidden">
+
+        {/* ⭐ SAME CONTINUATION BLOOM (INVERTED FLOW) */}
+        <div className="pointer-events-none absolute top-0 left-0 w-full h-96 z-10">
+          <div className="relative w-full h-full">
+
+            <img
+              src={currentImage}
+              className="absolute top-0 w-full h-full object-cover blur-2xl opacity-20 scale-110"
+              draggable={false}
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-black/40 to-transparent" />
+          </div>
+        </div>
+
+        {/* TREND CONTENT */}
+        <div className="relative z-20">
+          <Trend />
+        </div>
+
+      </div>
     </>
   );
 }

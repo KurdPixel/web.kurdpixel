@@ -1,16 +1,52 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import Clerk from "@clerk/clerk-sdk-node";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { isSignedIn, user } = useUser();
+  const pathname = usePathname();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loadingAdmin, setLoadingAdmin] = useState(true);
 
-  // Check if user is admin
+  const navItems = [
+    { name: "سەرەتا", href: "/", icon: "home" },
+    { name: "فیلمەکان", href: "/movies", icon: "theaters" },
+    { name: "زنجیرەکان", href: "/series", icon: "movie" },
+  ];
+
+  // ✅ FIXED ACTIVE DETECTION
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [pill, setPill] = useState({ left: 0, width: 0 });
+
+  // ✅ PILL POSITION
+  useEffect(() => {
+    const updatePill = () => {
+      const index = navItems.findIndex((i) => isActive(i.href));
+      const el = itemRefs.current[index];
+
+      if (el) {
+        setPill({
+          left: el.offsetLeft,
+          width: el.offsetWidth,
+        });
+      }
+    };
+
+    updatePill();
+    window.addEventListener("resize", updatePill);
+
+    return () => window.removeEventListener("resize", updatePill);
+  }, [pathname]);
+
   useEffect(() => {
     const checkAdmin = async () => {
       if (!isSignedIn || !user) {
@@ -20,10 +56,7 @@ export default function Header() {
 
       try {
         const email = user.primaryEmailAddress?.emailAddress;
-        if (!email) {
-          setLoadingAdmin(false);
-          return;
-        }
+        if (!email) return;
 
         const res = await fetch("/api/check-admin", {
           method: "POST",
@@ -36,7 +69,7 @@ export default function Header() {
           setIsAdmin(data.isAdmin);
         }
       } catch (err) {
-        console.error("Failed to check admin status:", err);
+        console.error(err);
       } finally {
         setLoadingAdmin(false);
       }
@@ -47,117 +80,134 @@ export default function Header() {
 
   return (
     <>
-      <nav className="absolute top-8 left-0 right-0 z-40">
-        <div className="mx-auto w-full max-w-6xl relative rounded-full bg-white/30 backdrop-blur-xl border border-white/30 shadow-lg flex items-center justify-between p-4">
-          {/* Left: user button or sign-in/sign-up when not signed in + admin button */}
+      {/* HEADER */}
+      <nav className="absolute top-6 left-0 z-50 w-full px-4">
+        <div className="w-full flex items-center justify-between">
+
+          {/* LEFT */}
           <div className="flex items-center gap-3">
-            {isSignedIn ? (
-              <>
-                <UserButton afterSignOutUrl="/sign-in" />
-                {isAdmin && !loadingAdmin && (
-                  <Link href="/admin" className="flex items-center justify-center p-2 rounded-full hover:bg-white/20 transition-colors" title="Admin Panel">
-                    <span className="material-symbols-rounded text-2xl text-white">admin_panel_settings</span>
-                  </Link>
-                )}
-              </>
-            ) : (
-              <>
-              <Link href="/sign-in" className="box-border rounded-full bg-violet-500 px-4 py-2 text-sm font-medium leading-5 text-white shadow-xs hover:bg-violet-700 focus:outline-none">چوونەژوورەوە</Link>
-              </>
+            <Link href="/">
+              <img
+                src="https://i.imgur.com/8Udniyn.png"
+                className="h-8"
+                draggable={false}
+              />
+            </Link>
+
+            {isSignedIn && isAdmin && !loadingAdmin && (
+              <Link
+                href="/admin"
+                className="p-2 rounded-full text-white hover:bg-white/30"
+              >
+                <span className="material-symbols-rounded">
+                  admin_panel_settings
+                </span>
+              </Link>
             )}
           </div>
 
-          {/* Center: nav links (centered on desktop) */}
-          <div className="absolute left-1/2 inset-y-0 flex items-center transform -translate-x-1/2 hidden md:flex">
-            <ul className="kurdish-text flex flex-row items-center gap-8 font-semibold text-white">
-              <li>
-                {/* <Link href="/staff" className="flex items-center gap-1 hover:text-violet-400">
-                  <span>ستاف</span>
-                  <span className="material-symbols-rounded leading-none align-middle">people</span>
-                </Link> */}
-              </li>
-              <li>
-                <Link href="/series" className="flex items-center gap-1 hover:text-violet-500">
-                  <span className="kurdish-text">زنجیرەکان</span>
-                  <span className="material-symbols-rounded leading-none align-middle">movie</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/movies" className="flex items-center gap-1 hover:text-violet-500">
-                  <span className="kurdish-text">فیلمەکان</span>
-                  <span className="material-symbols-rounded leading-none align-middle">theaters</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/" className="flex items-center gap-1 hover:text-violet-500">
-                  <span className="kurdish-text">سەرەتا</span>
-                  <span className="material-symbols-rounded leading-none align-middle">home</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* NAV */}
+          <div className="hidden md:flex items-center gap-2 bg-white/20 backdrop-blur-xl border border-white/30 p-2 rounded-full shadow-lg relative">
 
-          {/* Right: mobile controls and logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-3 md:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded p-2 text-sm text-white hover:bg-white/20 focus:outline-none"
-                aria-controls="navbar-default"
-                aria-expanded={mobileMenuOpen}
+            {/* PILL */}
+            <div
+              className="absolute top-1 bottom-1 bg-white/80 rounded-full shadow-md transition-all duration-300"
+              style={{
+                left: pill.left,
+                width: pill.width,
+              }}
+            />
+
+            {navItems.map((item, i) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                ref={(el) => (itemRefs.current[i] = el)}
+                className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium transition-all
+                  ${
+                    isActive(item.href)
+                      ? "text-black"       // ✅ ACTIVE TEXT (DARK)
+                      : "text-black/60 hover:text-black"
+                  }
+                `}
               >
-                <span className="sr-only">Open main menu</span>
-                <svg className="h-6 w-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                  <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14" />
-                </svg>
-              </button>
-            </div>
+                {/* ICON (UNCHANGED) */}
+                <span className="material-symbols-rounded text-[18px]">
+                  {item.icon}
+                </span>
 
-            <Link href="/" className="flex items-center gap-3">
-              <img src="https://i.imgur.com/8Udniyn.png" className="h-7" alt="" draggable={false} onDragStart={(e) => e.preventDefault()} />
-            </Link>
+                {/* TEXT ONLY */}
+                <span className="kurdish-text transition-all">
+                  {item.name}
+                </span>
+              </Link>
+            ))}
+
+            {/* PROFILE */}
+            <div className="relative z-10 flex items-center justify-center ml-1 h-full">
+              {isSignedIn ? (
+                <UserButton afterSignOutUrl="/sign-in" />
+              ) : (
+                <Link
+                  href="/sign-in"
+                  className="rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600"
+                >
+                  چوونەژوورەوە
+                </Link>
+              )}
+            </div>
           </div>
+
+          {/* MOBILE */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-full text-white hover:bg-white/20"
+          >
+            <span className="material-symbols-rounded">menu</span>
+          </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div className="fixed top-24 left-0 right-0 z-30 md:hidden">
-          <div className="mx-auto w-full max-w-6xl rounded-2xl bg-white/30 backdrop-blur-xl border border-white/30 shadow-lg p-4">
-            <ul className="kurdish-text flex flex-col items-center gap-4 font-semibold text-white">
-              {isAdmin && !loadingAdmin && (
-                <li>
-                  <Link href="/admin" className="flex items-center justify-center p-2 rounded-full hover:bg-white/20 transition-colors" onClick={() => setMobileMenuOpen(false)} title="Admin Panel">
-                    <span className="material-symbols-rounded text-2xl">admin_panel_settings</span>
-                  </Link>
-                </li>
+        <div className="fixed top-20 left-4 right-4 z-40 md:hidden">
+          <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-4 shadow-lg">
+            <div className="flex flex-col gap-3">
+
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition
+                    ${
+                      isActive(item.href)
+                        ? "bg-white text-black"
+                        : "text-black/60 hover:bg-white/30 hover:text-black"
+                    }
+                  `}
+                >
+                  <span className="material-symbols-rounded">
+                    {item.icon}
+                  </span>
+                  <span className="kurdish-text">{item.name}</span>
+                </Link>
+              ))}
+
+              {isSignedIn && isAdmin && !loadingAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full text-white hover:bg-white/30"
+                >
+                  <span className="material-symbols-rounded">
+                    admin_panel_settings
+                  </span>
+                  Admin
+                </Link>
               )}
-              <li>
-                <Link href="/" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="kurdish-text">سەرەتا</span>
-                  <span className="material-symbols-rounded leading-none align-middle">home</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/movies" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="kurdish-text">فیلمەکان</span>
-                  <span className="material-symbols-rounded leading-none align-middle">theaters</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/drama" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="kurdish-text">زنجیرەکان</span>
-                  <span className="material-symbols-rounded leading-none align-middle">movie</span>
-                </Link>
-              </li>
-              <li>
-                 {/* <Link href="/staff" className="flex items-center gap-2 hover:text-violet-400" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="kurdish-text">ستاف</span>
-                  <span className="material-symbols-rounded leading-none align-middle">people</span>
-                </Link> */}
-              </li>
-            </ul>
+
+            </div>
           </div>
         </div>
       )}

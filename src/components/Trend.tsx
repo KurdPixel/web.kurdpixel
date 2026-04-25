@@ -38,22 +38,55 @@ export default function Trend() {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
-    fetch("/api/trend?limit=10")
-      .then((r) => r.json())
-      .then((j) => {
-        if (!mounted) return;
-        setMovies(j.data ?? []);
-      })
-      .catch(() => mounted && setMovies([]))
-      .finally(() => mounted && setLoading(false));
+    if (!inView) return;
 
-    return () => { mounted = false; };
-  }, []);
+    let mounted = true;
+    
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch("/api/trend?limit=10");
+        const json = await response.json();
+        if (mounted) {
+          setMovies(json.data ?? []);
+        }
+      } catch (error) {
+        if (mounted) {
+          setMovies([]);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchMovies();
+
+    return () => {
+      mounted = false;
+    };
+  }, [inView]);
 
   return (
-    <section ref={sectionRef} className="bg-[#121212] py-8">
-      <div className="max-w-6xl mx-auto px-4">
+    <section ref={sectionRef} className="bg-transparent py-8">
+      <style>{`
+        @keyframes popIn {
+          0% {
+            opacity: 0;
+            scale: 0.8;
+          }
+          100% {
+            opacity: 1;
+            scale: 1;
+          }
+        }
+        .animate-pop-in {
+          animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          opacity: 0;
+        }
+      `}</style>
+
+      <div className="max-w-9/12 mx-auto px-4">
 
         <h3 className="kurdish-text text-xl font-bold mb-4">
           نوێترین فیلمەکان
@@ -65,28 +98,18 @@ export default function Trend() {
           </div>
         )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-6 gap-4">
 
           {movies?.slice(0, 10).map((m, index) => (
-            <Link
-              key={m.id}
-              href={`/movies/${m.slug}`}
-              className="block"
-            >
+            <Link key={m.id} href={`/movies/${m.slug}`} className="block transform duration-300 hover:scale-105">
               <div
-                className={`
-                  group relative bg-white/5 rounded-lg border border-gray-800 
-                  hover:border-violet-500 overflow-hidden shadow-sm 
-                  hover:scale-105 transition duration-200
-
-                  ${inView ? "animate-card" : "opacity-0 translate-y-6"}
-                `}
+                className="group relative bg-white/5 rounded-lg border border-gray-800 overflow-hidden shadow-sm hover:scale-105 transition duration-200 cursor-pointer animate-pop-in"
                 style={{
-                  animationDelay: `${index * 70}ms`,
+                  animationDelay: `${index * 100}ms`,
                 }}
               >
 
-                <div className="relative w-full h-56 sm:h-64 md:h-56 lg:h-64 overflow-hidden">
+                <div className="relative w-full h-72 overflow-hidden">
 
                   <img
                     src={m.thumbnail_url}
