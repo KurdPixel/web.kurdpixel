@@ -87,8 +87,8 @@ export default function MoviesFilter({ movies }: { movies: Movie[] }) {
             <div
               className={`
                 relative bg-white/5 rounded-xl border border-gray-800 
-                hover:border-violet-500 overflow-hidden shadow-sm 
-                hover:scale-[1.03] transition duration-300
+                hover:border-violet-500 overflow-hidden 
+                hover:scale-105 transition duration-300
 
                 ${inView ? "animate-card" : "opacity-0 translate-y-6"}
               `}

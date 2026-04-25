@@ -109,7 +109,7 @@ export default function Trend() {
                 }}
               >
 
-                <div className="relative w-full h-40 sm:h-48 md:h-56 lg:h-64 overflow-hidden">
+                <div className="relative w-full h-40 sm:h-48 md:h-56 lg:h-72 xl:h-96 overflow-hidden">
 
                   <img
                     src={m.thumbnail_url}
