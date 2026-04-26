@@ -24,6 +24,19 @@ body {
   padding: 0;
 }
 
+/* This targets every single element on the page */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
 .kurdish-text {
   font-family: var(--font-kurdish), Arial, Helvetica, sans-serif;
 }

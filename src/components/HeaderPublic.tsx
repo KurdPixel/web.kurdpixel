@@ -8,13 +8,11 @@ import dynamic from "next/dynamic";
 import { IconFilm, IconHome, IconMenu, IconSearch, IconTheater } from "./Icons";
 
 const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
-const ClerkHeaderControls = dynamic(() => import("./ClerkHeaderControls"), { ssr: false });
 
 export default function HeaderPublic() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
-  const [clerkEnabled, setClerkEnabled] = useState(false);
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -75,20 +73,6 @@ export default function HeaderPublic() {
     };
   }, [pathname]);
 
-  useEffect(() => {
-    // Defer Clerk on public pages to reduce unused JS.
-    const w = window as any;
-    const enable = () => setClerkEnabled(true);
-
-    if (typeof w.requestIdleCallback === "function") {
-      const id = w.requestIdleCallback(enable, { timeout: 2000 });
-      return () => w.cancelIdleCallback?.(id);
-    }
-
-    const t = window.setTimeout(enable, 1500);
-    return () => window.clearTimeout(t);
-  }, []);
-
   return (
     <>
       <nav className="absolute top-3 sm:top-4 md:top-6 left-0 z-50 w-full px-3 sm:px-4">
@@ -147,23 +131,16 @@ export default function HeaderPublic() {
               <IconSearch className="h-4 w-4" />
             </Link>
 
-            {clerkEnabled ? (
-              <ClerkHeaderControls
-                variant="desktop"
-                onOpenAuth={() => setAuthOpen(true)}
-              />
-            ) : (
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setAuthOpen(true);
-                }}
-                className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
-              >
-                چوونەژوورەوە
-              </Link>
-            )}
+            <Link
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setAuthOpen(true);
+              }}
+              className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
+            >
+              چوونەژوورەوە
+            </Link>
           </div>
 
           <button
@@ -208,27 +185,17 @@ export default function HeaderPublic() {
                 گەڕان
               </Link>
 
-              {clerkEnabled ? (
-                <ClerkHeaderControls
-                  variant="mobile"
-                  onOpenAuth={() => {
-                    setMobileMenuOpen(false);
-                    setAuthOpen(true);
-                  }}
-                />
-              ) : (
-                <Link
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMobileMenuOpen(false);
-                    setAuthOpen(true);
-                  }}
-                  className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
-                >
-                  چوونەژوورەوە
-                </Link>
-              )}
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  setAuthOpen(true);
+                }}
+                className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
+              >
+                چوونەژوورەوە
+              </Link>
             </div>
           </div>
         </div>
