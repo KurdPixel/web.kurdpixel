@@ -55,18 +55,11 @@ export default function MovieDetail({ movie }: Props) {
       <AgeRestrictionModal isOpen={showAgeModal} onConfirm={handleAgeConfirm} />
 
       <main className="min-h-screen relative overflow-hidden text-white">
-
-        {/* BACKGROUND */}
         <div className="fixed inset-0 -z-10">
-          <img
-            src={movie.thumbnail_url}
-            className="w-full h-full object-cover scale-110"
-            draggable={false}
-          />
+          <img src={movie.thumbnail_url} className="w-full h-full object-cover scale-110" draggable={false} />
           <div className="absolute inset-0 bg-black/70" />
         </div>
 
-        {/* BLUR ATMOSPHERE */}
         <div className="fixed inset-0 -z-10">
           <img
             src={movie.thumbnail_url}
@@ -75,13 +68,8 @@ export default function MovieDetail({ movie }: Props) {
           />
         </div>
 
-        {/* CONTENT */}
         <div className="max-w-6xl mx-auto px-4 pt-24 sm:pt-28 md:pt-32 pb-12 md:pb-20">
-
-          {/* 🔥 CHANGED: FLEX REVERSED FOR RIGHT POSTER */}
           <div className="flex flex-col md:flex-row-reverse gap-4 md:gap-6 mb-6 md:mb-8">
-
-            {/* POSTER (NOW RIGHT SIDE ON DESKTOP) */}
             <img
               src={movie.thumbnail_url}
               alt={movie.title}
@@ -90,21 +78,16 @@ export default function MovieDetail({ movie }: Props) {
               draggable={false}
             />
 
-            {/* INFO */}
             <div className="flex-1 space-y-3 md:space-y-4 text-right">
-
               <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 md:justify-end flex-wrap">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{movie.title}</h1>
 
                 {movie.is_18_plus && (
-                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm flex-shrink-0">
-                    +18
-                  </span>
+                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm flex-shrink-0">+18</span>
                 )}
               </div>
 
               <div className="flex flex-wrap gap-2 md:gap-3 md:justify-end">
-
                 <div className="px-3 md:px-4 py-2 rounded-lg bg-[#01b4e4]/15 backdrop-blur border border-[#01b4e4]/35 text-xs md:text-sm text-[#8fe6ff]">
                   TMDB: <span className="font-bold text-white">{movie.tmdb_rating}</span>
                 </div>
@@ -120,7 +103,6 @@ export default function MovieDetail({ movie }: Props) {
                 <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
                   ماوە: {movie.duration_minutes} خولەک
                 </div>
-
               </div>
 
               <p className="kurdish-text text-gray-200 text-sm md:text-base bg-white/5 backdrop-blur-md border border-white/10 p-3 md:p-4 rounded-lg">
@@ -150,11 +132,9 @@ export default function MovieDetail({ movie }: Props) {
                   ))}
                 </div>
               )}
-
             </div>
           </div>
 
-          {/* PLAYER */}
           <div className="w-full aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden shadow-xl">
             <iframe
               src={movie.video_url}
@@ -164,9 +144,9 @@ export default function MovieDetail({ movie }: Props) {
               title="Player"
             />
           </div>
-
         </div>
       </main>
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-﻿import HomeClient from "./HomeClient";
+import HomeClient from "./HomeClient";
 import supabaseAdmin from "@/lib/supabaseServer";
 
 export default async function Home() {
@@ -9,3 +9,4 @@ export default async function Home() {
 
   return <HomeClient slides={data ?? []} />;
 }
+

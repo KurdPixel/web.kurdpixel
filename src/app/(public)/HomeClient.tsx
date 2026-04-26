@@ -3,8 +3,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Trend from "../components/Trend";
-import TrendSeries from "../components/TrendSeries";
+import Trend from "@/components/Trend";
+import TrendSeries from "@/components/TrendSeries";
 import Footer from "@/components/Footer";
 import { IconPlay } from "@/components/Icons";
 
@@ -45,19 +45,15 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
   if (!currentImage) {
     return (
       <main className="w-full h-screen bg-[#0f0f0f] overflow-hidden relative">
-        <div className="h-full flex items-center justify-center text-white">
-          چاوەڕوانبە...
-        </div>
+        <div className="h-full flex items-center justify-center text-white">چاوەڕوانبە...</div>
       </main>
     );
   }
 
   return (
     <>
-      {/* ================= HERO ================= */}
       <main className="w-full h-screen bg-[#0f0f0f] overflow-hidden relative">
         <div className="relative w-full h-full">
-          {/* BACKGROUND LAYER (decorative) */}
           <div className="absolute inset-0 z-0" aria-hidden="true">
             <Image
               src={currentImage}
@@ -71,8 +67,10 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
             />
           </div>
 
-          {/* MAIN SLIDE (LCP) */}
-          <div key={currentImage} className="absolute inset-0 transition-opacity duration-500 ease-in-out z-10 opacity-100">
+          <div
+            key={currentImage}
+            className="absolute inset-0 transition-opacity duration-500 ease-in-out z-10 opacity-100"
+          >
             <Image
               src={currentImage}
               alt="Slide"
@@ -86,10 +84,8 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
             />
           </div>
 
-          {/* DARK OVERLAY */}
           <div className="absolute inset-0 bg-black/60 z-20 pointer-events-none" />
 
-          {/* SOFT BLOOM (CSS-only) */}
           <div className="pointer-events-none absolute bottom-0 left-0 w-full h-72 sm:h-80 md:h-96 z-30">
             <div className="relative w-full h-full">
               <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/30 to-[#0f0f0f]" />
@@ -97,7 +93,6 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
             </div>
           </div>
 
-          {/* HERO CONTENT */}
           {validSlides[current] && (
             <div className="absolute inset-0 z-40 flex items-center">
               <div className="w-full flex justify-end px-4 sm:px-6 md:px-10 lg:px-20">
@@ -122,9 +117,7 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
         </div>
       </main>
 
-      {/* ================= TREND + FOOTER ================= */}
       <div className="relative bg-[#0f0f0f] overflow-hidden">
-        {/* CONTINUATION BLOOM — CSS-only */}
         <div className="pointer-events-none absolute top-0 left-0 w-full h-full z-10" aria-hidden="true">
           <div className="relative w-full h-full">
             <div className="absolute inset-0 bg-linear-to-b from-[#0f0f0f] via-black/40 to-black/70" />

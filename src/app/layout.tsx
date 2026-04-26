@@ -4,7 +4,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 
 import { Geist, Geist_Mono } from "next/font/google";
-import HeaderPublic from "../components/HeaderPublic";
 import "./globals.css";
 import localFont from 'next/font/local';
 
@@ -47,9 +46,7 @@ export default function RootLayout({
       <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} ${kurdishFont.variable} bg-[#0f0f0f]`}>
         <SpeedInsights />
         <Analytics />
-        <HeaderPublic />
-
-        <main className="flex-1">{children}</main>
+        {children}
       </body>
     </html>
   );

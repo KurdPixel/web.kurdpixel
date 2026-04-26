@@ -8,11 +8,15 @@ import dynamic from "next/dynamic";
 import { IconFilm, IconHome, IconMenu, IconSearch, IconTheater } from "./Icons";
 
 const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
+const ClerkUserButton = dynamic(() => import("./ClerkUserButton"), { ssr: false });
+
+type MeResponse = { signedIn: false } | { signedIn: true; userId: string; imageUrl: string | null };
 
 export default function HeaderPublic() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
+  const [me, setMe] = useState<MeResponse | null>(null);
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -24,6 +28,8 @@ export default function HeaderPublic() {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
+
+  const signedIn = me?.signedIn === true;
 
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const navRef = useRef<HTMLDivElement | null>(null);
@@ -72,6 +78,23 @@ export default function HeaderPublic() {
       ro = null;
     };
   }, [pathname]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/me", { cache: "no-store" });
+        const json = (await res.json()) as MeResponse;
+        if (!cancelled) setMe(json);
+      } catch {
+        if (!cancelled) setMe({ signedIn: false });
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -131,16 +154,22 @@ export default function HeaderPublic() {
               <IconSearch className="h-4 w-4" />
             </Link>
 
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setAuthOpen(true);
-              }}
-              className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
-            >
-              چوونەژوورەوە
-            </Link>
+            {signedIn ? (
+              <div className="relative z-10 ml-1 flex items-center self-center">
+                <ClerkUserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              <Link
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setAuthOpen(true);
+                }}
+                className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
+              >
+                چوونەژوورەوە
+              </Link>
+            )}
           </div>
 
           <button
@@ -185,17 +214,23 @@ export default function HeaderPublic() {
                 گەڕان
               </Link>
 
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setMobileMenuOpen(false);
-                  setAuthOpen(true);
-                }}
-                className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
-              >
-                چوونەژوورەوە
-              </Link>
+              {signedIn ? (
+                <div className="flex justify-center py-1">
+                  <ClerkUserButton afterSignOutUrl="/" />
+                </div>
+              ) : (
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    setAuthOpen(true);
+                  }}
+                  className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
+                >
+                  چوونەژوورەوە
+                </Link>
+              )}
             </div>
           </div>
         </div>

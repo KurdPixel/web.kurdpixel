@@ -30,11 +30,7 @@ interface SeriesDetail {
   episodes: { [key: number]: Episode[] };
 }
 
-export default function SeriesDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default function SeriesDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
 
   const [series, setSeries] = useState<SeriesDetail | null>(null);
@@ -59,9 +55,7 @@ export default function SeriesDetailPage({
           setShowAgeModal(true);
         }
 
-        const firstSeason = Object.keys(data.episodes)
-          .sort((a, b) => parseInt(a) - parseInt(b))[0];
-
+        const firstSeason = Object.keys(data.episodes).sort((a, b) => parseInt(a) - parseInt(b))[0];
         if (firstSeason) {
           setSelectedSeason(parseInt(firstSeason));
           setSelectedEpisode(data.episodes[parseInt(firstSeason)][0]);
@@ -94,9 +88,7 @@ export default function SeriesDetailPage({
 
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center text-white bg-black">
-        بارکردن...
-      </main>
+      <main className="min-h-screen flex items-center justify-center text-white bg-black">بارکردن...</main>
     );
   }
 
@@ -125,25 +117,14 @@ export default function SeriesDetailPage({
 
   return (
     <>
-      <AgeRestrictionModal
-        isOpen={showAgeModal}
-        onConfirm={handleAgeConfirm}
-      />
+      <AgeRestrictionModal isOpen={showAgeModal} onConfirm={handleAgeConfirm} />
 
-      {/* ================= PAGE ================= */}
       <main className="min-h-screen relative overflow-hidden text-white">
-
-        {/* 🌑 CINEMATIC BACKGROUND */}
         <div className="fixed inset-0 -z-20">
-          <img
-            src={series.cover_image_url}
-            className="w-full h-full object-cover scale-110"
-            draggable={false}
-          />
+          <img src={series.cover_image_url} className="w-full h-full object-cover scale-110" draggable={false} />
           <div className="absolute inset-0 bg-black/70" />
         </div>
 
-        {/* 🌫️ SOFT BLOOM LAYER */}
         <div className="fixed inset-0 -z-10">
           <img
             src={series.cover_image_url}
@@ -153,11 +134,7 @@ export default function SeriesDetailPage({
         </div>
 
         <div className="max-w-6xl mx-auto px-4 pt-24 sm:pt-28 md:pt-32 pb-12 md:pb-20">
-
-          {/* ================= HEADER (MATCH MOVIE STYLE) ================= */}
           <div className="flex flex-col md:flex-row-reverse gap-4 md:gap-6 mb-8 md:mb-10">
-
-            {/* POSTER RIGHT SIDE */}
             <img
               src={series.cover_image_url}
               alt={series.title}
@@ -166,21 +143,16 @@ export default function SeriesDetailPage({
               draggable={false}
             />
 
-            {/* INFO */}
             <div className="flex-1 space-y-3 md:space-y-4 text-right">
-
               <div className="flex flex-col sm:flex-row items-center sm:items-center gap-3 md:justify-end flex-wrap">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{series.title}</h1>
 
                 {series.is_18_plus && (
-                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm flex-shrink-0">
-                    +18
-                  </span>
+                  <span className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm flex-shrink-0">+18</span>
                 )}
               </div>
 
               <div className="flex flex-wrap gap-2 md:gap-3 md:justify-end">
-
                 {series.tmdb_rating && (
                   <div className="px-3 md:px-4 py-2 rounded-lg bg-[#01b4e4]/15 backdrop-blur border border-[#01b4e4]/35 text-xs md:text-sm text-[#8fe6ff]">
                     TMDB: <span className="font-bold text-white">{series.tmdb_rating}</span>
@@ -229,11 +201,9 @@ export default function SeriesDetailPage({
                   ))}
                 </div>
               )}
-
             </div>
           </div>
 
-          {/* ================= PLAYER ================= */}
           {selectedEpisode && (
             <div className="mb-8 md:mb-10">
               <div className="w-full aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden">
@@ -247,7 +217,6 @@ export default function SeriesDetailPage({
             </div>
           )}
 
-          {/* ================= SEASONS ================= */}
           <div className="mb-4 md:mb-6 text-right">
             <h3 className="text-base md:text-lg font-bold mb-2 md:mb-3">وەرزەکان</h3>
 
@@ -257,9 +226,7 @@ export default function SeriesDetailPage({
                   key={season}
                   onClick={() => handleSeasonChange(season)}
                   className={`px-3 sm:px-4 py-1 md:py-2 rounded-lg text-sm md:text-base transition ${
-                    selectedSeason === season
-                      ? "bg-violet-500 text-white"
-                      : "bg-white/10 text-gray-300 hover:bg-white/20"
+                    selectedSeason === season ? "bg-violet-500 text-white" : "bg-white/10 text-gray-300 hover:bg-white/20"
                   }`}
                 >
                   {season}
@@ -268,25 +235,22 @@ export default function SeriesDetailPage({
             </div>
           </div>
 
-          {/* ================= EPISODES ================= */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2 md:gap-3">
             {episodes.map((ep) => (
               <button
                 key={ep.id}
                 onClick={() => handleEpisodeSelect(ep)}
                 className={`p-2 md:p-3 rounded-lg text-right border text-xs md:text-sm transition ${
-                  selectedEpisode?.id === ep.id
-                    ? "bg-violet-500/30 border-violet-500"
-                    : "bg-white/5 border-white/10 hover:border-white/30"
+                  selectedEpisode?.id === ep.id ? "bg-violet-500/30 border-violet-500" : "bg-white/5 border-white/10 hover:border-white/30"
                 }`}
               >
                 <div>{ep.title}</div>
               </button>
             ))}
           </div>
-
         </div>
       </main>
     </>
   );
 }
+

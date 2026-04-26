@@ -2,21 +2,23 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Footer from "../../components/Footer";
-import CardGridSkeleton from "../../components/CardGridSkeleton";
+import Footer from "@/components/Footer";
+import CardGridSkeleton from "@/components/CardGridSkeleton";
 
-interface Movie {
+interface Series {
   id: string;
   title: string;
   slug: string;
+  cover_image_url?: string;
   thumbnail_url?: string;
+  total_seasons?: number;
+  tmdb_rating?: number;
   description?: string;
   tags?: string[];
-  tmdb_rating?: number;
 }
 
-export default function MoviesPage() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+export default function SeriesPage() {
+  const [series, setSeries] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [inView, setInView] = useState(false);
@@ -43,25 +45,24 @@ export default function MoviesPage() {
   useEffect(() => {
     if (!inView) return;
 
-    const fetchMovies = async () => {
+    const fetchSeries = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/movies");
+        const res = await fetch("/api/series");
         if (!res.ok) {
-          throw new Error("Failed to fetch movies");
+          throw new Error("Failed to fetch series");
         }
         const data = await res.json();
-        setMovies(data);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching movies:", err);
-        setError(err instanceof Error ? err.message : "Error loading movies");
+        setSeries(data);
+      } catch (err: any) {
+        setError(err.message);
+        setSeries([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMovies();
+    fetchSeries();
   }, [inView]);
 
   return (
@@ -83,42 +84,37 @@ export default function MoviesPage() {
         }
       `}</style>
 
-      {/* Fixed background */}
       <div className="fixed inset-0 -z-10">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url(https://wallpapers.com/images/featured/movie-9pvmdtvz4cb0xl37.jpg)",
+            backgroundImage: "url(https://wallpapers.com/images/featured/movie-9pvmdtvz4cb0xl37.jpg)",
           }}
         />
         <div className="absolute inset-0 backdrop-blur-md bg-black/70" />
       </div>
 
       <div className="max-w-10/12 mx-auto px-4 relative z-10">
-
-        {/* Title */}
         <h1 className="kurdish-text text-center text-2xl sm:text-3xl md:text-4xl font-semibold py-4 text-violet-500">
-          فیلمەکان
+          زنجیرەکان
         </h1>
 
-        {/* Content */}
         <div ref={sectionRef}>
-          {error && (
-            <div className="kurdish-text p-8 text-center text-red-600 relative z-10">
-              هەڵە لە بارکردنی فیلمەکان: {error}
-            </div>
-          )}
-
-          {loading && (
+          {loading ? (
             <CardGridSkeleton />
-          )}
-
-          {!loading && !error && (
+          ) : error ? (
+            <div className="text-center">
+              <p className="text-red-400">{error}</p>
+            </div>
+          ) : series.length === 0 ? (
+            <div className="text-center">
+              <p className="kurdish-text text-gray-300 text-lg">هیچ زنجیرەیەک نەدۆزرایەوە</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
-              {movies.map((m, index) => (
-                <Link key={m.id} href={`/movies/${m.slug}`}>
-                  <div 
+              {series.map((s, index) => (
+                <Link key={s.id} href={`/series/${s.slug}`}>
+                  <div
                     className="group relative bg-white/5 rounded-lg overflow-hidden hover:scale-105 transition duration-300 cursor-pointer animate-pop-in"
                     style={{
                       animationDelay: `${index * 100}ms`,
@@ -126,22 +122,25 @@ export default function MoviesPage() {
                   >
                     <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
                       <img
-                        src={m.thumbnail_url}
-                        alt={m.title}
+                        src={s.thumbnail_url}
+                        alt={s.title}
                         loading="lazy"
                         className="w-full h-full object-cover"
                         draggable={false}
                       />
                       <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 brightness-90 opacity-0 group-hover:opacity-100 transition duration-300 px-2">
-                        <p className="text-sm font-semibold text-white line-clamp-2">
-                          {m.title}
-                        </p>
-                        {m.tmdb_rating && (
+                        <p className="text-sm font-semibold text-white line-clamp-2">{s.title}</p>
+                        {s.tmdb_rating && (
                           <div className="mt-1 flex items-center gap-1 bg-black/50 border border-white/10 text-white font-bold px-2 py-1 rounded-xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4 text-cyan-400"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
                               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.286 3.966c.3.921-.755 1.688-1.54 1.118l-3.38-2.455a1 1 0 00-1.176 0L5.37 17.85c-.784.57-1.838-.197-1.54-1.118l1.286-3.966a1 1 0 00-.364-1.118L1.373 7.39c-.783-.57-.38-1.81.588-1.81h4.178a1 1 0 00.95-.69L9.05 2.927z" />
                             </svg>
-                            <span>{m.tmdb_rating}</span>
+                            <span>{s.tmdb_rating}</span>
                           </div>
                         )}
                       </div>
@@ -157,3 +156,4 @@ export default function MoviesPage() {
     </main>
   );
 }
+

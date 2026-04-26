@@ -40,19 +40,13 @@ export default function SearchPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [moviesRes, seriesRes] = await Promise.all([
-          fetch("/api/movies"),
-          fetch("/api/series"),
-        ]);
+        const [moviesRes, seriesRes] = await Promise.all([fetch("/api/movies"), fetch("/api/series")]);
 
         if (!moviesRes.ok || !seriesRes.ok) {
           throw new Error("Failed to load search data");
         }
 
-        const [moviesData, seriesData] = await Promise.all([
-          moviesRes.json(),
-          seriesRes.json(),
-        ]);
+        const [moviesData, seriesData] = await Promise.all([moviesRes.json(), seriesRes.json()]);
 
         if (!active) return;
         setMovies(Array.isArray(moviesData) ? moviesData : []);
@@ -100,8 +94,7 @@ export default function SearchPage() {
 
   const showMovies = type === "all" || type === "movies";
   const showSeries = type === "all" || type === "series";
-  const hasResults =
-    (showMovies && limitedMovies.length > 0) || (showSeries && limitedSeries.length > 0);
+  const hasResults = (showMovies && limitedMovies.length > 0) || (showSeries && limitedSeries.length > 0);
 
   return (
     <main className="min-h-screen pt-24 pb-10 relative overflow-hidden">
@@ -109,8 +102,7 @@ export default function SearchPage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url(https://wallpapers.com/images/featured/movie-9pvmdtvz4cb0xl37.jpg)",
+            backgroundImage: "url(https://wallpapers.com/images/featured/movie-9pvmdtvz4cb0xl37.jpg)",
           }}
         />
         <div className="absolute inset-0 backdrop-blur-md bg-black/70" />
@@ -154,9 +146,7 @@ export default function SearchPage() {
                 key={filterItem.id}
                 onClick={() => setType(filterItem.id as SearchType)}
                 className={`kurdish-text rounded-full px-4 py-2 text-sm transition ${
-                  type === filterItem.id
-                    ? "bg-violet-600 text-white"
-                    : "bg-white/10 text-gray-200 hover:bg-white/20"
+                  type === filterItem.id ? "bg-violet-600 text-white" : "bg-white/10 text-gray-200 hover:bg-white/20"
                 }`}
               >
                 {filterItem.label}
@@ -183,9 +173,7 @@ export default function SearchPage() {
           <div className="space-y-8">
             {showMovies && limitedMovies.length > 0 && (
               <section>
-                <h2 className="kurdish-text text-lg sm:text-xl font-semibold text-white mb-3">
-                  فیلمەکان
-                </h2>
+                <h2 className="kurdish-text text-lg sm:text-xl font-semibold text-white mb-3">فیلمەکان</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
                   {limitedMovies.map((m) => (
                     <Link key={`m-${m.id}`} href={`/movies/${m.slug}`}>
@@ -199,9 +187,7 @@ export default function SearchPage() {
                             draggable={false}
                           />
                           <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 brightness-90 opacity-0 group-hover:opacity-100 transition duration-300 px-2">
-                            <p className="text-sm font-semibold text-white line-clamp-2">
-                              {m.title}
-                            </p>
+                            <p className="text-sm font-semibold text-white line-clamp-2">{m.title}</p>
                           </div>
                         </div>
                       </div>
@@ -213,9 +199,7 @@ export default function SearchPage() {
 
             {showSeries && limitedSeries.length > 0 && (
               <section>
-                <h2 className="kurdish-text text-lg sm:text-xl font-semibold text-white mb-3">
-                  زنجیرەکان
-                </h2>
+                <h2 className="kurdish-text text-lg sm:text-xl font-semibold text-white mb-3">زنجیرەکان</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
                   {limitedSeries.map((s) => (
                     <Link key={`s-${s.id}`} href={`/series/${s.slug}`}>
@@ -229,9 +213,7 @@ export default function SearchPage() {
                             draggable={false}
                           />
                           <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 brightness-90 opacity-0 group-hover:opacity-100 transition duration-300 px-2">
-                            <p className="text-sm font-semibold text-white line-clamp-2">
-                              {s.title}
-                            </p>
+                            <p className="text-sm font-semibold text-white line-clamp-2">{s.title}</p>
                           </div>
                         </div>
                       </div>
@@ -246,3 +228,4 @@ export default function SearchPage() {
     </main>
   );
 }
+
