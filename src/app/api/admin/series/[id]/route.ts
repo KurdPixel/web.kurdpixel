@@ -3,6 +3,42 @@ import { NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import supabaseAdmin from "@/lib/supabaseServer";
 
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!id || id === "undefined") {
+      return NextResponse.json({ error: "Missing series id" }, { status: 400 });
+    }
+
+    const { data: series, error } = await supabaseAdmin
+      .from("series")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true, series });
+  } catch (err: any) {
+    console.error("Error fetching series:", err);
+    return NextResponse.json(
+      { error: err.message || "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }

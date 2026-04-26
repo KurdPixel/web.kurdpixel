@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Trend from "../components/Trend";
+import TrendSeries from "../components/TrendSeries";
 import Footer from "@/components/Footer";
 import { IconPlay } from "@/components/Icons";
 
@@ -124,6 +125,10 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
 
         <div className="relative z-20">
           <Trend />
+        </div>
+
+        <div className="relative z-20">
+          <TrendSeries />
         </div>
 
         <div className="relative z-20">

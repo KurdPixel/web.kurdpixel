@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Footer from "../../components/Footer";
+import CardGridSkeleton from "../../components/CardGridSkeleton";
 
 interface Series {
   id: string;
@@ -20,7 +21,6 @@ export default function SeriesPage() {
   const [series, setSeries] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -65,17 +65,6 @@ export default function SeriesPage() {
     fetchSeries();
   }, [inView]);
 
-  const filtered = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-    if (!q) return series;
-    return series.filter(
-      (s) =>
-        s.title.toLowerCase().includes(q) ||
-        (s.description || "").toLowerCase().includes(q) ||
-        (s.tags || []).some((t) => t.toLowerCase().includes(q))
-    );
-  }, [series, searchQuery]);
-
   return (
     <main className="min-h-screen pt-20 relative overflow-hidden">
       <style>{`
@@ -114,42 +103,15 @@ export default function SeriesPage() {
           زنجیرەکان
         </h1>
 
-        {/* Search */}
-        <div className="mb-6 sm:mb-8 md:mb-10 flex justify-center px-2 sm:px-4">
-          <div className="relative w-full max-w-xl">
-            <svg
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300 pointer-events-none"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"
-              />
-            </svg>
-            <input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="گەڕان بۆ زنجیرە..."
-              className="w-full pl-12 pr-5 py-2.5 text-sm rounded-full bg-white/10 backdrop-blur-xl border-0 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/70 transition duration-200"
-            />
-          </div>
-        </div>
-
         {/* Content */}
         <div ref={sectionRef}>
           {loading ? (
-            <div className="flex justify-center items-center">
-              <div className="text-gray-300">بارکردن...</div>
-            </div>
+            <CardGridSkeleton />
           ) : error ? (
             <div className="text-center">
               <p className="text-red-400">{error}</p>
             </div>
-          ) : filtered.length === 0 ? (
+          ) : series.length === 0 ? (
             <div className="text-center">
               <p className="kurdish-text text-gray-300 text-lg">
                 هیچ زنجیرەیەک نەدۆزرایەوە
@@ -157,7 +119,7 @@ export default function SeriesPage() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
-              {filtered.map((s, index) => (
+              {series.map((s, index) => (
                 <Link key={s.id} href={`/series/${s.slug}`}>
                   <div 
                     className="group relative bg-white/5 rounded-lg overflow-hidden hover:scale-105 transition duration-300 cursor-pointer animate-pop-in"

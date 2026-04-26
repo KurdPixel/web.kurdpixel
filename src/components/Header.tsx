@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { IconFilm, IconHome, IconMenu, IconTheater } from "./Icons";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { IconFilm, IconHome, IconMenu, IconSearch, IconTheater } from "./Icons";
 
 const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
 
@@ -13,7 +14,6 @@ export default function Header() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"sign-in" | "sign-up">("sign-in");
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -72,20 +72,36 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* PROFILE */}
-            <div className="relative z-10 flex items-center justify-center ml-1 h-full">
+            <Link
+              href="/search"
+              className={`relative z-10 rounded-full border p-2 transition ${
+                isActive("/search")
+                  ? "bg-white/15 border-white/20 text-white"
+                  : "border-white/20 bg-white/10 text-white hover:bg-white/20"
+              }`}
+              aria-label="Search"
+            >
+              <IconSearch className="h-4 w-4" />
+            </Link>
+
+            <SignedOut>
               <a
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  setAuthMode("sign-in");
                   setAuthOpen(true);
                 }}
-                className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
+                className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
               >
                 چوونەژوورەوە
               </a>
-            </div>
+            </SignedOut>
+
+            <SignedIn>
+              <div className="relative z-10 ml-1 flex items-center self-center">
+                <UserButton />
+              </div>
+            </SignedIn>
           </div>
 
           {/* MOBILE */}
@@ -121,13 +137,43 @@ export default function Header() {
                 </Link>
               ))}
 
+              <Link
+                href="/search"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`rounded-full px-4 py-2 text-sm text-center ${
+                  isActive("/search")
+                    ? "bg-white/25 text-white"
+                    : "bg-white/15 text-white hover:bg-white/20"
+                }`}
+              >
+                گەڕان
+              </Link>
+
+              <SignedOut>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAuthOpen(true);
+                  }}
+                  className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
+                >
+                  چوونەژوورەوە
+                </button>
+              </SignedOut>
+
+              <SignedIn>
+                <div className="flex justify-center py-1">
+                  <UserButton />
+                </div>
+              </SignedIn>
+
             </div>
           </div>
         </div>
       )}
 
       {authOpen ? (
-        <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
+        <AuthModal open={authOpen} initialMode="sign-in" onClose={() => setAuthOpen(false)} />
       ) : null}
     </>
   );
