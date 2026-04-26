@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Header() {
   const { isSignedIn, user } = useUser();
@@ -87,10 +88,15 @@ export default function Header() {
           {/* LEFT */}
           <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/">
-              <img
+              <Image
                 src="https://i.imgur.com/8Udniyn.png"
+                alt="KurdPixel Logo"
+                width={154}
+                height={48}
+                sizes="(max-width: 768px) 96px, (max-width: 1200px) 120px, 154px"
                 className="h-5 sm:h-6 md:h-7 max-w-12 max-h-12"
                 draggable={false}
+                priority
               />
             </Link>
 

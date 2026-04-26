@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -15,11 +16,15 @@ export default function Footer() {
         {/* LOGO + DISCORD ROW */}
         <div className="flex items-center justify-center gap-3 sm:gap-5 py-2">
           <Link href="/">
-            <img
+            <Image
               src="https://i.imgur.com/8Udniyn.png"
+              alt="KurdPixel Logo"
+              width={154}
+              height={48}
+              sizes="(max-width: 768px) 96px, (max-width: 1200px) 120px, 154px"
               className="h-4 sm:h-5 md:h-6 max-w-11 max-h-11"
-              alt="logo"
               draggable={false}
+              priority
             />
           </Link>
 

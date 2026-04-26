@@ -65,12 +65,11 @@ export default function Home() {
                 src={currentImage}
                 alt="Background"
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1350px"
                 priority
                 className="object-cover scale-110 blur-xl opacity-50 transition-all duration-700"
                 draggable={false}
                 quality={60}
-                unoptimized={false}
               />
             </div>
 
@@ -84,12 +83,11 @@ export default function Home() {
                   src={src}
                   alt="Slide"
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1350px"
                   priority={idx === 0}
                   className="object-cover"
                   draggable={false}
-                  quality={80}
-                  unoptimized={false}
+                  quality={60}
                 />
               </div>
             ))}
@@ -104,11 +102,10 @@ export default function Home() {
                   src={currentImage}
                   alt="Bloom"
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1350px"
                   className="object-cover blur-lg opacity-25 scale-110 transition-all duration-700"
                   draggable={false}
-                  quality={40}
-                  unoptimized={false}
+                  quality={60}
                 />
                 <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/30 to-[#0f0f0f]" />
               </div>
@@ -152,11 +149,10 @@ export default function Home() {
                 src={currentImage}
                 alt="Trend Bloom"
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1350px"
                 className="object-cover blur-lg opacity-20 scale-110 transition-all duration-700"
                 draggable={false}
-                quality={30}
-                unoptimized={false}
+                quality={60}
               />
               <div className="absolute inset-0 bg-linear-to-b from-[#0f0f0f] via-black/40 to-black/70" />
             </div>
