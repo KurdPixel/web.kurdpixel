@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function ClerkHeaderControls({
   onOpenAuth,
@@ -11,7 +11,7 @@ export default function ClerkHeaderControls({
   variant: "desktop" | "mobile";
 }) {
   return (
-    <ClerkProvider>
+    <>
       <SignedOut>
         {variant === "desktop" ? (
           <a
@@ -45,7 +45,7 @@ export default function ClerkHeaderControls({
           </div>
         )}
       </SignedIn>
-    </ClerkProvider>
+    </>
   );
 }
 

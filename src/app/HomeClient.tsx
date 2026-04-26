@@ -82,7 +82,7 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
               fetchPriority={current === 0 ? "high" : "auto"}
               className="object-cover"
               draggable={false}
-              quality={45}
+              quality={40}
             />
           </div>
 

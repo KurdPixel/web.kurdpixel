@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { ClerkProvider, SignIn, SignUp } from "@clerk/nextjs";
+import { SignIn, SignUp } from "@clerk/nextjs";
 
 type Mode = "sign-in" | "sign-up";
 
@@ -102,35 +102,33 @@ export default function AuthModal({
           </div>
 
           <div className="p-5">
-            <ClerkProvider>
-              <div className="w-full flex justify-center">
-                <div className="w-full max-w-md">
-                  {mode === "sign-in" ? (
-                    <SignIn
-                      routing="hash"
-                      appearance={{
-                        elements: {
-                          rootBox: "mx-auto w-full",
-                          cardBox: "mx-auto w-full",
-                          card: "mx-auto w-full",
-                        },
-                      }}
-                    />
-                  ) : (
-                    <SignUp
-                      routing="hash"
-                      appearance={{
-                        elements: {
-                          rootBox: "mx-auto w-full",
-                          cardBox: "mx-auto w-full",
-                          card: "mx-auto w-full",
-                        },
-                      }}
-                    />
-                  )}
-                </div>
+            <div className="w-full flex justify-center">
+              <div className="w-full max-w-md">
+                {mode === "sign-in" ? (
+                  <SignIn
+                    routing="hash"
+                    appearance={{
+                      elements: {
+                        rootBox: "mx-auto w-full",
+                        cardBox: "mx-auto w-full",
+                        card: "mx-auto w-full",
+                      },
+                    }}
+                  />
+                ) : (
+                  <SignUp
+                    routing="hash"
+                    appearance={{
+                      elements: {
+                        rootBox: "mx-auto w-full",
+                        cardBox: "mx-auto w-full",
+                        card: "mx-auto w-full",
+                      },
+                    }}
+                  />
+                )}
               </div>
-            </ClerkProvider>
+            </div>
           </div>
         </div>
       </div>
