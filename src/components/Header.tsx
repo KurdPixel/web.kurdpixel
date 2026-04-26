@@ -1,19 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { IconFilm, IconHome, IconMenu, IconSearch, IconTheater } from "./Icons";
 
 const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
+const ClerkHeaderControls = dynamic(() => import("./ClerkHeaderControls"), { ssr: false });
 
 export default function Header() {
   const pathname = usePathname();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
+  const [clerkEnabled, setClerkEnabled] = useState(false);
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -26,6 +27,21 @@ export default function Header() {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
+
+  useEffect(() => {
+    // Defer loading Clerk on the homepage to reduce unused JS.
+    // When the user actually needs auth (open modal / use user menu), Clerk will load.
+    const w = window as any;
+    const enable = () => setClerkEnabled(true);
+
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(enable, { timeout: 2000 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+
+    const t = window.setTimeout(enable, 1500);
+    return () => window.clearTimeout(t);
+  }, []);
 
   return (
     <>
@@ -45,7 +61,7 @@ export default function Header() {
                 className="h-5 sm:h-6 md:h-7 w-auto"
                 draggable={false}
                 priority
-                quality={45}
+                quality={40}
               />
             </Link>
 
@@ -84,7 +100,12 @@ export default function Header() {
               <IconSearch className="h-4 w-4" />
             </Link>
 
-            <SignedOut>
+            {clerkEnabled ? (
+              <ClerkHeaderControls
+                variant="desktop"
+                onOpenAuth={() => setAuthOpen(true)}
+              />
+            ) : (
               <a
                 href="#"
                 onClick={(e) => {
@@ -95,13 +116,7 @@ export default function Header() {
               >
                 چوونەژوورەوە
               </a>
-            </SignedOut>
-
-            <SignedIn>
-              <div className="relative z-10 ml-1 flex items-center self-center">
-                <UserButton />
-              </div>
-            </SignedIn>
+            )}
           </div>
 
           {/* MOBILE */}
@@ -119,7 +134,7 @@ export default function Header() {
 
       {/* MOBILE MENU */}
       {mobileMenuOpen && (
-        <div id="mobile-nav-menu" className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-40 md:hidden">
+        <div id="mobile-nav-menu" className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-[60] md:hidden">
           <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-3 sm:p-4 shadow-lg">
             <div className="flex flex-col gap-2 sm:gap-3">
 
@@ -149,7 +164,15 @@ export default function Header() {
                 گەڕان
               </Link>
 
-              <SignedOut>
+              {clerkEnabled ? (
+                <ClerkHeaderControls
+                  variant="mobile"
+                  onOpenAuth={() => {
+                    setMobileMenuOpen(false);
+                    setAuthOpen(true);
+                  }}
+                />
+              ) : (
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -159,13 +182,7 @@ export default function Header() {
                 >
                   چوونەژوورەوە
                 </button>
-              </SignedOut>
-
-              <SignedIn>
-                <div className="flex justify-center py-1">
-                  <UserButton />
-                </div>
-              </SignedIn>
+              )}
 
             </div>
           </div>

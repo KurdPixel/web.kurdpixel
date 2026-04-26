@@ -14,6 +14,14 @@ type Movie = {
 };
 
 export default function Trend() {
+  const isValidImageSrc = (src: unknown): src is string => {
+    return (
+      typeof src === "string" &&
+      src.length > 0 &&
+      (src.startsWith("/") || src.startsWith("https://") || src.startsWith("http://"))
+    );
+  };
+
   const [movies, setMovies] = useState<Movie[] | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -109,15 +117,21 @@ export default function Trend() {
                       }}
                     >
                       <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
-                        <Image
-                          src={m.thumbnail_url}
-                          alt={m.title}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-                          className="object-cover"
-                          draggable={false}
-                          quality={45}
-                        />
+                        {isValidImageSrc(m.thumbnail_url) ? (
+                          <Image
+                            src={m.thumbnail_url}
+                            alt={m.title}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
+                            className="object-cover"
+                            draggable={false}
+                            quality={45}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-white/70 text-sm">
+                            No image
+                          </div>
+                        )}
 
                         {/* Hover Overlay */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 brightness-90 opacity-0 group-hover:opacity-100 transition duration-300 px-2">

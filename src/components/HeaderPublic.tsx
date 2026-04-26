@@ -5,15 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { IconFilm, IconHome, IconMenu, IconSearch, IconTheater } from "./Icons";
 
 const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
+const ClerkHeaderControls = dynamic(() => import("./ClerkHeaderControls"), { ssr: false });
 
 export default function HeaderPublic() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
+  const [clerkEnabled, setClerkEnabled] = useState(false);
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -74,6 +75,20 @@ export default function HeaderPublic() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    // Defer Clerk on public pages to reduce unused JS.
+    const w = window as any;
+    const enable = () => setClerkEnabled(true);
+
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(enable, { timeout: 2000 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+
+    const t = window.setTimeout(enable, 1500);
+    return () => window.clearTimeout(t);
+  }, []);
+
   return (
     <>
       <nav className="absolute top-3 sm:top-4 md:top-6 left-0 z-50 w-full px-3 sm:px-4">
@@ -89,7 +104,7 @@ export default function HeaderPublic() {
                 className="h-5 sm:h-6 md:h-7 w-auto"
                 draggable={false}
                 priority
-                quality={45}
+                quality={40}
               />
             </Link>
           </div>
@@ -132,7 +147,12 @@ export default function HeaderPublic() {
               <IconSearch className="h-4 w-4" />
             </Link>
 
-            <SignedOut>
+            {clerkEnabled ? (
+              <ClerkHeaderControls
+                variant="desktop"
+                onOpenAuth={() => setAuthOpen(true)}
+              />
+            ) : (
               <Link
                 href="#"
                 onClick={(e) => {
@@ -143,13 +163,7 @@ export default function HeaderPublic() {
               >
                 چوونەژوورەوە
               </Link>
-            </SignedOut>
-
-            <SignedIn>
-              <div className="relative z-10 flex items-center self-center">
-                <UserButton />
-              </div>
-            </SignedIn>
+            )}
           </div>
 
           <button
@@ -165,7 +179,7 @@ export default function HeaderPublic() {
       </nav>
 
       {mobileMenuOpen && (
-        <div id="public-mobile-nav-menu" className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-40 md:hidden">
+        <div id="public-mobile-nav-menu" className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-[60] md:hidden">
           <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-3 sm:p-4 shadow-lg">
             <div className="flex flex-col gap-2 sm:gap-3">
               {navItems.map((item) => (
@@ -194,7 +208,15 @@ export default function HeaderPublic() {
                 گەڕان
               </Link>
 
-              <SignedOut>
+              {clerkEnabled ? (
+                <ClerkHeaderControls
+                  variant="mobile"
+                  onOpenAuth={() => {
+                    setMobileMenuOpen(false);
+                    setAuthOpen(true);
+                  }}
+                />
+              ) : (
                 <Link
                   href="#"
                   onClick={(e) => {
@@ -206,13 +228,7 @@ export default function HeaderPublic() {
                 >
                   چوونەژوورەوە
                 </Link>
-              </SignedOut>
-
-              <SignedIn>
-                <div className="flex justify-center py-1">
-                  <UserButton />
-                </div>
-              </SignedIn>
+              )}
             </div>
           </div>
         </div>

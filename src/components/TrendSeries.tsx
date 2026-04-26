@@ -14,6 +14,14 @@ type Series = {
 };
 
 export default function TrendSeries() {
+  const isValidImageSrc = (src: unknown): src is string => {
+    return (
+      typeof src === "string" &&
+      src.length > 0 &&
+      (src.startsWith("/") || src.startsWith("https://") || src.startsWith("http://"))
+    );
+  };
+
   const [series, setSeries] = useState<Series[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [inView, setInView] = useState(false);
@@ -95,15 +103,21 @@ export default function TrendSeries() {
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
                       <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
-                        <Image
-                          src={s.thumbnail_url}
-                          alt={s.title}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-                          className="object-cover"
-                          draggable={false}
-                          quality={45}
-                        />
+                        {isValidImageSrc(s.thumbnail_url) ? (
+                          <Image
+                            src={s.thumbnail_url}
+                            alt={s.title}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
+                            className="object-cover"
+                            draggable={false}
+                            quality={45}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-white/70 text-sm">
+                            No image
+                          </div>
+                        )}
 
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/40 brightness-90 opacity-0 group-hover:opacity-100 transition duration-300 px-2">
                           <p className="text-sm font-semibold text-white line-clamp-2">

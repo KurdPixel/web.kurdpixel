@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import React from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
-import { ClerkProvider } from "@clerk/nextjs";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "../components/Header";
@@ -44,16 +43,13 @@ export default function RootLayout({
       <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="https://clerk.kurdpixel.icu" crossOrigin="" />
       </head>
       <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} ${kurdishFont.variable} bg-[#0f0f0f]`}>
-        <ClerkProvider>
-          <SpeedInsights />
-          <Analytics />
-          <Header />
+        <SpeedInsights />
+        <Analytics />
+        <Header />
 
-          <main className="flex-1">{children}</main>
-        </ClerkProvider>
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

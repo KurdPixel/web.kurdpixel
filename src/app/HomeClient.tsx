@@ -18,7 +18,16 @@ export interface Slide {
 }
 
 export default function HomeClient({ slides }: { slides: Slide[] }) {
-  const images = useMemo(() => slides.map((s) => s.image_url), [slides]);
+  const isValidImageSrc = (src: unknown): src is string => {
+    return (
+      typeof src === "string" &&
+      src.length > 0 &&
+      (src.startsWith("/") || src.startsWith("https://") || src.startsWith("http://"))
+    );
+  };
+
+  const validSlides = useMemo(() => slides.filter((s) => isValidImageSrc(s.image_url)), [slides]);
+  const images = useMemo(() => validSlides.map((s) => s.image_url), [validSlides]);
   const [current, setCurrent] = useState(0);
 
   const total = images.length;
@@ -89,18 +98,18 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
           </div>
 
           {/* HERO CONTENT */}
-          {slides[current] && (
+          {validSlides[current] && (
             <div className="absolute inset-0 z-40 flex items-center">
               <div className="w-full flex justify-end px-4 sm:px-6 md:px-10 lg:px-20">
                 <div className="w-full flex flex-col items-end text-right">
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white w-full">
-                    {slides[current].title}
+                    {validSlides[current].title}
                   </h2>
                   <p className="kurdish-text text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mt-3 sm:mt-4 md:mt-6 mb-4 sm:mb-5 md:mb-7 max-w-xl w-full">
-                    {slides[current].description}
+                    {validSlides[current].description}
                   </p>
                   <Link
-                    href={`/movies/${slides[current].watch_url}`}
+                    href={`/movies/${validSlides[current].watch_url}`}
                     className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full bg-white text-black font-semibold hover:scale-105 transition w-fit text-sm sm:text-base"
                   >
                     <IconPlay className="h-5 w-5" />
