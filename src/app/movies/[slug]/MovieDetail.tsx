@@ -12,6 +12,15 @@ export default function MovieDetail({ movie }: Props) {
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [viewsDisplay, setViewsDisplay] = useState("—");
 
+  const translators: string[] = Array.isArray(movie?.translators)
+    ? movie.translators
+    : typeof movie?.translators === "string"
+      ? movie.translators
+          .split(",")
+          .map((t: string) => t.trim())
+          .filter(Boolean)
+      : [];
+
   useEffect(() => {
     if (movie.is_18_plus && !hasConfirmed) {
       setShowAgeModal(true);
@@ -96,8 +105,8 @@ export default function MovieDetail({ movie }: Props) {
 
               <div className="flex flex-wrap gap-2 md:gap-3 md:justify-end">
 
-                <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
-                  TMDB: {movie.tmdb_rating}
+                <div className="px-3 md:px-4 py-2 rounded-lg bg-[#01b4e4]/15 backdrop-blur border border-[#01b4e4]/35 text-xs md:text-sm text-[#8fe6ff]">
+                  TMDB: <span className="font-bold text-white">{movie.tmdb_rating}</span>
                 </div>
 
                 <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
@@ -128,6 +137,19 @@ export default function MovieDetail({ movie }: Props) {
                   </span>
                 ))}
               </div>
+
+              {translators.length > 0 && (
+                <div className="flex flex-wrap gap-2 md:justify-end mt-2">
+                  {translators.map((t, i) => (
+                    <span
+                      key={`${t}-${i}`}
+                      className="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs md:text-sm"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
 
             </div>
           </div>

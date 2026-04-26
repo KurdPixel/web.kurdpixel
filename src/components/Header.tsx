@@ -4,13 +4,18 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { IconFilm, IconHome, IconMenu, IconShield, IconTheater } from "./Icons";
+
+const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
 
 export default function Header() {
   const { isSignedIn, user } = useUser();
   const pathname = usePathname();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [isAdmin, setIsAdmin] = useState(false);
   const [loadingAdmin, setLoadingAdmin] = useState(true);
 
@@ -150,7 +155,7 @@ export default function Header() {
 
             {/* PILL */}
             <div
-              className="absolute top-1 bottom-1 bg-white/80 rounded-full shadow-md transition-all duration-300"
+              className="absolute top-1 bottom-1 rounded-full shadow-md transition-all duration-300 bg-white/15 border border-white/20"
               style={{
                 left: pill.left,
                 width: pill.width,
@@ -164,15 +169,11 @@ export default function Header() {
                 ref={(el) => {
                   itemRefs.current[i] = el;
                 }}
-                className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium transition-all
-                  ${
-                    isActive(item.href)
-                      ? "text-black"       // ✅ ACTIVE TEXT (DARK)
-                      : "text-black/60 hover:text-black"
-                  }
-                `}
+                className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-bold transition-colors ${
+                  isActive(item.href) ? "text-white" : "text-white hover:text-white/60"
+                }`}
               >
-                <item.icon className="h-[18px] w-[18px]" />
+                {isActive(item.href) && <item.icon className="h-[18px] w-[18px]" />}
 
                 {/* TEXT ONLY */}
                 <span className="kurdish-text transition-all">
@@ -186,12 +187,17 @@ export default function Header() {
               {isSignedIn ? (
                 <UserButton afterSignOutUrl="/sign-in" />
               ) : (
-                <Link
-                  href="/sign-in"
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAuthMode("sign-in");
+                    setAuthOpen(true);
+                  }}
                   className="rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600"
                 >
                   چوونەژوورەوە
-                </Link>
+                </a>
               )}
             </div>
           </div>
@@ -217,15 +223,11 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition text-sm sm:text-base
-                    ${
-                      isActive(item.href)
-                        ? "bg-white text-black"
-                        : "text-black/60 hover:bg-white/30 hover:text-black"
-                    }
-                  `}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-sm sm:text-base font-bold ${
+                    isActive(item.href) ? "bg-white/15 text-white" : "text-white hover:bg-white/10 hover:text-white/60"
+                  }`}
                 >
-                  <item.icon className="h-5 w-5" />
+                  {isActive(item.href) && <item.icon className="h-5 w-5" />}
                   <span className="kurdish-text">{item.name}</span>
                 </Link>
               ))}
@@ -245,6 +247,8 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
     </>
   );
 }

@@ -16,7 +16,7 @@ interface Series {
 export default function SeriesCard({ series }: { series: Series }) {
   return (
     <Link href={`/series/${series.slug}`} className="block group w-full">
-      <div className="relative bg-white/5 rounded-xl border border-gray-800 hover:border-violet-500 overflow-hidden shadow-sm hover:scale-[1.03] transition duration-300">
+      <div className="relative bg-white/5 rounded-xl border border-gray-800 hover:border-violet-500 overflow-hidden shadow-sm hover:scale-105 transition-transform duration-300">
         
         {/* Image */}
         <div className="relative w-full aspect-2/3 overflow-hidden">

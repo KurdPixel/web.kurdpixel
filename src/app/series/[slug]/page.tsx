@@ -25,6 +25,7 @@ interface SeriesDetail {
   tmdb_rating?: number;
   language?: string;
   tags?: string[];
+  translators?: string[];
   is_18_plus: boolean;
   episodes: { [key: number]: Episode[] };
 }
@@ -112,6 +113,16 @@ export default function SeriesDetailPage({
     .map(Number)
     .sort((a, b) => a - b);
 
+  const translatorsRaw: unknown = (series as any)?.translators;
+  const translators: string[] = Array.isArray(translatorsRaw)
+    ? translatorsRaw
+    : typeof translatorsRaw === "string"
+      ? translatorsRaw
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean)
+      : [];
+
   return (
     <>
       <AgeRestrictionModal
@@ -171,8 +182,8 @@ export default function SeriesDetailPage({
               <div className="flex flex-wrap gap-2 md:gap-3 md:justify-end">
 
                 {series.tmdb_rating && (
-                  <div className="px-3 md:px-4 py-2 rounded-lg bg-white/10 backdrop-blur border border-white/10 text-xs md:text-sm">
-                    TMDB: {series.tmdb_rating}
+                  <div className="px-3 md:px-4 py-2 rounded-lg bg-[#01b4e4]/15 backdrop-blur border border-[#01b4e4]/35 text-xs md:text-sm text-[#8fe6ff]">
+                    TMDB: <span className="font-bold text-white">{series.tmdb_rating}</span>
                   </div>
                 )}
 
@@ -201,6 +212,19 @@ export default function SeriesDetailPage({
                       className="px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-100 text-xs md:text-sm"
                     >
                       {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {translators.length > 0 && (
+                <div className="flex flex-wrap gap-2 md:justify-end mt-2">
+                  {translators.map((t, i) => (
+                    <span
+                      key={`${t}-${i}`}
+                      className="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs md:text-sm"
+                    >
+                      {t}
                     </span>
                   ))}
                 </div>

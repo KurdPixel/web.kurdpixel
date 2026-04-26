@@ -4,11 +4,16 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { IconFilm, IconHome, IconMenu, IconTheater } from "./Icons";
+
+const AuthModal = dynamic(() => import("./AuthModal"), { ssr: false });
 
 export default function HeaderPublic() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"sign-in" | "sign-up">("sign-in");
 
   const navItems = [
     { name: "سەرەتا", href: "/", icon: IconHome },
@@ -90,28 +95,34 @@ export default function HeaderPublic() {
             className="hidden md:flex items-center gap-2 bg-white/20 backdrop-blur-xl border border-white/30 p-2 rounded-full shadow-lg relative"
           >
             <div
-              className="absolute top-1 bottom-1 bg-white/80 rounded-full shadow-md transition-all duration-300"
+              className="absolute top-1 bottom-1 rounded-full shadow-md transition-all duration-300 bg-white/15 border border-white/20"
               style={{ left: pill.left, width: pill.width }}
             />
 
             {navItems.map((item, i) => (
+              // Show the icon only for the active item (pill)
               <Link
                 key={item.href}
                 href={item.href}
                 ref={(el) => {
                   itemRefs.current[i] = el;
                 }}
-                className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-medium transition-all ${
-                  isActive(item.href) ? "text-black" : "text-black/60 hover:text-black"
+                className={`relative z-10 flex items-center gap-2 px-4 py-1 rounded-full text-sm font-bold transition-colors ${
+                  isActive(item.href) ? "text-white" : "text-white hover:text-white/60"
                 }`}
               >
-                <item.icon className="h-[18px] w-[18px]" />
+                {isActive(item.href) && <item.icon className="h-[18px] w-[18px]" />}
                 <span className="kurdish-text transition-all">{item.name}</span>
               </Link>
             ))}
 
             <Link
-              href="/sign-in"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setAuthMode("sign-in");
+                setAuthOpen(true);
+              }}
               className="relative z-10 rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600"
             >
               چوونەژوورەوە
@@ -136,18 +147,23 @@ export default function HeaderPublic() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition text-sm sm:text-base ${
-                    isActive(item.href) ? "bg-white text-black" : "text-black/60 hover:bg-white/30 hover:text-black"
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-sm sm:text-base font-bold ${
+                    isActive(item.href) ? "bg-white/15 text-white" : "text-white hover:bg-white/10 hover:text-white/60"
                   }`}
                 >
-                  <item.icon className="h-5 w-5" />
+                  {isActive(item.href) && <item.icon className="h-5 w-5" />}
                   <span className="kurdish-text">{item.name}</span>
                 </Link>
               ))}
 
               <Link
-                href="/sign-in"
-                onClick={() => setMobileMenuOpen(false)}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  setAuthMode("sign-in");
+                  setAuthOpen(true);
+                }}
                 className="rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600 text-center"
               >
                 چوونەژوورەوە
@@ -156,6 +172,12 @@ export default function HeaderPublic() {
           </div>
         </div>
       )}
+
+      <AuthModal
+        open={authOpen}
+        initialMode={authMode}
+        onClose={() => setAuthOpen(false)}
+      />
     </>
   );
 }

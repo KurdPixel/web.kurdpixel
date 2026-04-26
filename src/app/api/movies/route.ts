@@ -5,7 +5,8 @@ export async function GET() {
   try {
     const { data: movies, error } = await supabase
       .from("movies")
-      .select("id, title, slug, thumbnail_url, description, tags, imdb_rating")
+      // Support both legacy `imdb_rating` and newer `tmdb_rating`
+      .select("id, title, slug, thumbnail_url, description, tags, tmdb_rating, imdb_rating")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -15,12 +16,14 @@ export async function GET() {
       );
     }
 
-    // Rename imdb_rating to tmdb_rating for consistency
-    const moviesWithTMDB = (movies || []).map((movie: any) => ({
-      ...movie,
-      tmdb_rating: movie.imdb_rating,
-      imdb_rating: undefined,
-    }));
+    const moviesWithTMDB = (movies || []).map((movie: any) => {
+      const rating = movie.tmdb_rating ?? movie.imdb_rating ?? null;
+      return {
+        ...movie,
+        tmdb_rating: rating,
+        imdb_rating: undefined,
+      };
+    });
 
     return NextResponse.json(moviesWithTMDB);
   } catch (err) {
