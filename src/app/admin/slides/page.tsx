@@ -197,10 +197,11 @@ export default function SlidesAdminPage() {
               {slides.map((slide, idx) => (
                 <div key={slide.id} className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg p-3 md:p-4 flex flex-col sm:flex-row gap-3 md:gap-4">
                   {/* Thumbnail */}
-                  <div className="flex-shrink-0 w-full sm:w-24 md:w-32 h-20 sm:h-24 rounded overflow-hidden">
+                  <div className="flex-shrink-0 w-full sm:w-24 md:w-32 h-20 sm:h-24 rounded overflow-hidden bg-gray-700">
                     <img
                       src={slide.image_url}
                       alt={`Slide ${idx + 1}`}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23444' width='100' height='100'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em' fill='%23888' font-size='12'%3EInvalid URL%3C/text%3E%3C/svg%3E";

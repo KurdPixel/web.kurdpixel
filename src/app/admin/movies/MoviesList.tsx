@@ -43,10 +43,11 @@ export default function MoviesList({
             className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg overflow-hidden flex flex-col"
           >
             {/* Thumbnail */}
-            <div className="w-full h-56">
+            <div className="w-full h-56 bg-gray-700 overflow-hidden">
               <img
                 src={movie.thumbnail_url}
                 alt={movie.title}
+                loading="lazy"
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.src =

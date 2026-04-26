@@ -75,6 +75,8 @@ export default function MovieDetail({ movie }: Props) {
             {/* POSTER (NOW RIGHT SIDE ON DESKTOP) */}
             <img
               src={movie.thumbnail_url}
+              alt={movie.title}
+              loading="eager"
               className="w-full sm:w-56 md:w-64 rounded-lg shadow-lg object-cover hover:scale-105 transition mx-auto md:mx-0"
               draggable={false}
             />

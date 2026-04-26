@@ -149,6 +149,8 @@ export default function SeriesDetailPage({
             {/* POSTER RIGHT SIDE */}
             <img
               src={series.cover_image_url}
+              alt={series.title}
+              loading="eager"
               className="w-full sm:w-56 md:w-64 rounded-lg shadow-lg object-cover hover:scale-105 transition mx-auto md:mx-0"
               draggable={false}
             />

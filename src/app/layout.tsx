@@ -27,6 +27,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "KurdPixel",
   description: "KurdPixel - Your Gateway to Kurdish Movies and Series",
+  icons: {
+    icon: 'https://i.imgur.com/8Udniyn.png',
+  },
 };
 
 export default function RootLayout({
@@ -38,9 +41,13 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+          <link rel="preload" as="image" href="https://i.imgur.com/8Udniyn.png" />
         </head>
-        <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable}`}>
+        <body className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} bg-[#0f0f0f]`}>
           <SpeedInsights/>
           <Analytics/>
           <Header />
@@ -48,7 +55,6 @@ export default function RootLayout({
           <main className="flex-1">
             {children}
           </main>
-          <Footer />
         </body>
       </html>
     </ClerkProvider>

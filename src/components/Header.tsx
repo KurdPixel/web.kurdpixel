@@ -89,7 +89,7 @@ export default function Header() {
             <Link href="/">
               <img
                 src="https://i.imgur.com/8Udniyn.png"
-                className="h-6 sm:h-7 md:h-8"
+                className="h-5 sm:h-6 md:h-7 max-w-12 max-h-12"
                 draggable={false}
               />
             </Link>

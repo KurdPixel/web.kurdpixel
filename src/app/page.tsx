@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Trend from "../components/Trend";
+import Footer from "@/components/Footer";
 
 interface Slide {
   id: string;
@@ -32,7 +33,6 @@ export default function Home() {
         setLoading(false);
       }
     };
-
     fetchSlides();
   }, []);
 
@@ -40,11 +40,9 @@ export default function Home() {
 
   useEffect(() => {
     if (!total) return;
-
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % total);
     }, 10000);
-
     return () => clearInterval(interval);
   }, [total]);
 
@@ -54,7 +52,6 @@ export default function Home() {
     <>
       {/* ================= HERO ================= */}
       <main className="w-full h-screen bg-[#0f0f0f] overflow-hidden relative">
-
         {loading || !currentImage ? (
           <div className="h-full flex items-center justify-center text-white">
             چاوەڕوانبە...
@@ -62,7 +59,7 @@ export default function Home() {
         ) : (
           <div className="relative w-full h-full">
 
-            {/* 🌫️ GLOBAL SOFT ATMOSPHERE */}
+            {/* GLOBAL SOFT ATMOSPHERE */}
             <div className="absolute inset-0 z-0">
               <img
                 src={currentImage}
@@ -81,6 +78,9 @@ export default function Home() {
               >
                 <img
                   src={src}
+                  alt="Slide"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  decoding={idx === 0 ? "auto" : "async"}
                   className="w-full h-full object-cover"
                   draggable={false}
                 />
@@ -90,18 +90,14 @@ export default function Home() {
             {/* DARK OVERLAY */}
             <div className="absolute inset-0 bg-black/60 z-20" />
 
-            {/* ⭐ NEW: SOFT MIXING BLOOM (THE FIX) */}
+            {/* SOFT MIXING BLOOM */}
             <div className="pointer-events-none absolute bottom-0 left-0 w-full h-96 z-30">
               <div className="relative w-full h-full">
-
-                {/* blurred continuation of image */}
                 <img
                   src={currentImage}
                   className="absolute bottom-0 w-full h-full object-cover blur-2xl opacity-25 scale-110"
                   draggable={false}
                 />
-
-                {/* extra soft fade into black */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-[#0f0f0f]" />
               </div>
             </div>
@@ -110,17 +106,13 @@ export default function Home() {
             {slides[current] && (
               <div className="absolute inset-0 z-40 flex items-center">
                 <div className="w-full flex justify-end px-4 sm:px-6 md:px-10 lg:px-20">
-
                   <div className="w-full flex flex-col items-end text-right">
-
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white w-full">
                       {slides[current].title}
                     </h2>
-
                     <p className="kurdish-text text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl mt-3 sm:mt-4 md:mt-6 mb-4 sm:mb-5 md:mb-7 max-w-xl w-full">
                       {slides[current].description}
                     </p>
-
                     <Link
                       href={`/movies/${slides[current].watch_url}`}
                       className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full bg-white text-black font-semibold hover:scale-105 transition w-fit text-sm sm:text-base"
@@ -130,7 +122,6 @@ export default function Home() {
                       </span>
                       Play
                     </Link>
-
                   </div>
                 </div>
               </div>
@@ -139,26 +130,30 @@ export default function Home() {
         )}
       </main>
 
-      {/* ================= TREND ================= */}
+     {/* ================= TREND + FOOTER ================= */}
       <div className="relative bg-[#0f0f0f] overflow-hidden">
 
-        {/* ⭐ SAME CONTINUATION BLOOM (INVERTED FLOW) */}
-        <div className="pointer-events-none absolute top-0 left-0 w-full h-96 z-10">
-          <div className="relative w-full h-full">
-
-            <img
-              src={currentImage}
-              className="absolute top-0 w-full h-full object-cover blur-2xl opacity-20 scale-110"
-              draggable={false}
-            />
-
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-black/40 to-transparent" />
+        {/* CONTINUATION BLOOM — covers trend AND footer */}
+        {currentImage && (
+          <div className="pointer-events-none absolute top-0 left-0 w-full h-full z-10">
+            <div className="relative w-full h-full">
+              <img
+                src={currentImage}
+                className="absolute top-0 w-full h-full object-cover blur-2xl opacity-20 scale-110"
+                draggable={false}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-black/40 to-black/70" />
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* TREND CONTENT */}
         <div className="relative z-20">
           <Trend />
+        </div>
+
+        {/* Footer sits inside bloom — bg-transparent lets bloom show through */}
+        <div className="relative z-20">
+          <Footer />
         </div>
 
       </div>

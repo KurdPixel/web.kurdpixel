@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
+import Footer from "../../components/Footer";
 
 interface Series {
   id: string;
@@ -89,7 +90,7 @@ export default function SeriesPage() {
           }
         }
         .animate-pop-in {
-          animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
           opacity: 0;
         }
       `}</style>
@@ -164,10 +165,11 @@ export default function SeriesPage() {
                       animationDelay: `${index * 100}ms`,
                     }}
                   >
-                    <div className="relative w-full h-40 sm:h-48 md:h-56 lg:h-72 xl:h-96 overflow-hidden">
+                    <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
                       <img
                         src={s.thumbnail_url}
                         alt={s.title}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                         draggable={false}
                       />
@@ -192,6 +194,7 @@ export default function SeriesPage() {
           )}
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

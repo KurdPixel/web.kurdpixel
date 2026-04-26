@@ -98,10 +98,11 @@ export default function MoviesFilter({ movies }: { movies: Movie[] }) {
             >
 
               {/* Image */}
-              <div className="relative w-full aspect-[2/3] overflow-hidden">
+              <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
                 <img
                   src={movie.thumbnail_url}
                   alt={movie.title}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                   draggable={false}
                 />
