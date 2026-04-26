@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="KurdPixel">
+  <rect width="64" height="64" rx="14" fill="#0f0f0f"/>
+  <path d="M18 46V18h10c7 0 12 4.3 12 10.6 0 6.4-5 10.4-12 10.4h-4v7H18zm6-13h4c3.7 0 6-1.7 6-4.6 0-2.9-2.3-4.7-6-4.7h-4V33z" fill="#a78bfa"/>
+  <path d="M44 46V18h6v11.2L58 18h7l-10 12.5L65 46h-7l-6.1-10.5L50 37.9V46h-6z" fill="#67e8f9"/>
+</svg>
+

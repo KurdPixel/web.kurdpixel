@@ -4,6 +4,7 @@ import Clerk from "@clerk/clerk-sdk-node";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import supabaseAdmin from "@/lib/supabaseServer";
+import { IconArrowRight, IconImage, IconTV, IconTheater } from "@/components/Icons";
 
 export default async function AdminPage() {
   const { userId } = await auth();
@@ -63,13 +64,13 @@ export default async function AdminPage() {
                 <div className="flex flex-col h-full justify-between">
                   <div>
                     <div className="inline-flex p-2 sm:p-3 rounded-lg bg-violet-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-violet-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-violet-300">theaters</span>
+                      <IconTheater className="h-7 w-7 sm:h-8 sm:w-8 text-violet-300" />
                     </div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">Movies</h2>
                     <p className="text-white/60 text-xs sm:text-sm">Manage movies, add new movies, edit and delete existing ones.</p>
                   </div>
                   <div className="flex items-center text-violet-300 group-hover:translate-x-2 transition-transform">
-                    <span className="material-symbols-rounded">arrow_forward</span>
+                    <IconArrowRight className="h-5 w-5" />
                   </div>
                 </div>
               </div>
@@ -81,13 +82,13 @@ export default async function AdminPage() {
                 <div className="flex flex-col h-full justify-between">
                   <div>
                     <div className="inline-flex p-2 sm:p-3 rounded-lg bg-cyan-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-cyan-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-cyan-300">tv</span>
+                      <IconTV className="h-7 w-7 sm:h-8 sm:w-8 text-cyan-300" />
                     </div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">TV Series</h2>
                     <p className="text-white/60 text-xs sm:text-sm">Manage series, add new series, create episodes, edit and delete existing ones.</p>
                   </div>
                   <div className="flex items-center text-cyan-300 group-hover:translate-x-2 transition-transform">
-                    <span className="material-symbols-rounded">arrow_forward</span>
+                    <IconArrowRight className="h-5 w-5" />
                   </div>
                 </div>
               </div>
@@ -99,13 +100,13 @@ export default async function AdminPage() {
                 <div className="flex flex-col h-full justify-between">
                   <div>
                     <div className="inline-flex p-2 sm:p-3 rounded-lg bg-orange-600/30 mb-2 sm:mb-3 md:mb-4 group-hover:bg-orange-600/50 transition-colors">
-                      <span className="material-symbols-rounded text-2xl sm:text-3xl text-orange-300">image</span>
+                      <IconImage className="h-7 w-7 sm:h-8 sm:w-8 text-orange-300" />
                     </div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">Carousel Slides</h2>
                     <p className="text-white/60 text-xs sm:text-sm">Manage carousel slides, add new slides with titles, descriptions, and watch links.</p>
                   </div>
                   <div className="flex items-center text-orange-300 group-hover:translate-x-2 transition-transform">
-                    <span className="material-symbols-rounded">arrow_forward</span>
+                    <IconArrowRight className="h-5 w-5" />
                   </div>
                 </div>
               </div>

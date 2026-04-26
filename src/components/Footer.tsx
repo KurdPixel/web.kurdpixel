@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="flex items-center justify-center gap-3 sm:gap-5 py-2">
           <Link href="/">
             <Image
-              src="https://i.imgur.com/8Udniyn.png"
+              src="/logo.png"
               alt="KurdPixel Logo"
               width={154}
               height={48}
@@ -25,6 +25,7 @@ export default function Footer() {
               className="h-4 sm:h-5 md:h-6 max-w-11 max-h-11"
               draggable={false}
               priority
+              quality={70}
             />
           </Link>
 

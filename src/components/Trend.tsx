@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 type Movie = {
   id: string;
@@ -113,12 +114,14 @@ export default function Trend() {
 
                     <div className="relative w-full aspect-[2/3] bg-gray-700 overflow-hidden">
 
-                      <img
+                      <Image
                         src={m.thumbnail_url}
                         alt={m.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
+                        className="object-cover"
                         draggable={false}
+                        quality={60}
                       />
 
                       {/* Hover Overlay */}
