@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Trend from "../components/Trend";
 import Footer from "@/components/Footer";
 
@@ -58,47 +59,58 @@ export default function Home() {
           </div>
         ) : (
           <div className="relative w-full h-full">
-
-            {/* GLOBAL SOFT ATMOSPHERE */}
+            {/* BLURRED BACKGROUND LAYER (optimized) */}
             <div className="absolute inset-0 z-0">
-              <img
+              <Image
                 src={currentImage}
-                className="w-full h-full object-cover scale-110 blur-3xl opacity-50"
+                alt="Background"
+                fill
+                sizes="100vw"
+                priority
+                className="object-cover scale-110 blur-xl opacity-50 transition-all duration-700"
                 draggable={false}
+                quality={60}
+                unoptimized={false}
               />
             </div>
 
-            {/* MAIN SLIDES */}
+            {/* MAIN SLIDE (LCP) */}
             {images.map((src, idx) => (
               <div
                 key={idx}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out z-10 ${
-                  current === idx ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out z-10 ${current === idx ? "opacity-100" : "opacity-0"}`}
               >
-                <img
+                <Image
                   src={src}
                   alt="Slide"
-                  loading={idx === 0 ? "eager" : "lazy"}
-                  decoding={idx === 0 ? "auto" : "async"}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="100vw"
+                  priority={idx === 0}
+                  className="object-cover"
                   draggable={false}
+                  quality={80}
+                  unoptimized={false}
                 />
               </div>
             ))}
 
             {/* DARK OVERLAY */}
-            <div className="absolute inset-0 bg-black/60 z-20" />
+            <div className="absolute inset-0 bg-black/60 z-20 pointer-events-none" />
 
-            {/* SOFT MIXING BLOOM */}
-            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-96 z-30">
+            {/* SOFT BLOOM (single layer, optimized) */}
+            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-72 sm:h-80 md:h-96 z-30">
               <div className="relative w-full h-full">
-                <img
+                <Image
                   src={currentImage}
-                  className="absolute bottom-0 w-full h-full object-cover blur-2xl opacity-25 scale-110"
+                  alt="Bloom"
+                  fill
+                  sizes="100vw"
+                  className="object-cover blur-lg opacity-25 scale-110 transition-all duration-700"
                   draggable={false}
+                  quality={40}
+                  unoptimized={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-[#0f0f0f]" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/30 to-[#0f0f0f]" />
               </div>
             </div>
 
@@ -130,19 +142,23 @@ export default function Home() {
         )}
       </main>
 
-     {/* ================= TREND + FOOTER ================= */}
+      {/* ================= TREND + FOOTER ================= */}
       <div className="relative bg-[#0f0f0f] overflow-hidden">
-
-        {/* CONTINUATION BLOOM — covers trend AND footer */}
+        {/* CONTINUATION BLOOM — covers trend AND footer, single layer */}
         {currentImage && (
           <div className="pointer-events-none absolute top-0 left-0 w-full h-full z-10">
             <div className="relative w-full h-full">
-              <img
+              <Image
                 src={currentImage}
-                className="absolute top-0 w-full h-full object-cover blur-2xl opacity-20 scale-110"
+                alt="Trend Bloom"
+                fill
+                sizes="100vw"
+                className="object-cover blur-lg opacity-20 scale-110 transition-all duration-700"
                 draggable={false}
+                quality={30}
+                unoptimized={false}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-black/40 to-black/70" />
+              <div className="absolute inset-0 bg-linear-to-b from-[#0f0f0f] via-black/40 to-black/70" />
             </div>
           </div>
         )}
@@ -155,7 +171,6 @@ export default function Home() {
         <div className="relative z-20">
           <Footer />
         </div>
-
       </div>
     </>
   );
