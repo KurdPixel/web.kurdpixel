@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   compress: true,
   productionBrowserSourceMaps: false,
   experimental: {
+    optimizeCss: true,
     optimizePackageImports: ['@clerk/nextjs'],
   },
 };

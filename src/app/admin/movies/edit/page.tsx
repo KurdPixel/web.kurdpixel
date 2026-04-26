@@ -9,7 +9,7 @@ type Props = { searchParams: { id?: string } };
 
 export default async function EditMovieQueryPage({ searchParams }: Props) {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   // Get primary email from Clerk
   let email: string | null = null;

@@ -9,7 +9,7 @@ type Props = { params: { id: string } };
 
 export default async function EditMoviePage({ params }: Props) {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   // Get primary email from Clerk
   let email: string | null = null;

@@ -12,13 +12,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@font-face {
-  font-family: 'KurdishFont';
-  src: url('../fonts/Kurdish.ttf') format('truetype');
-  unicode-range: U+0600-06FF, U+FB50-FDFF, U+FE70-FEFF, U+200C, U+061C;
-  font-display: swap;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -42,8 +35,7 @@ img {
 }
 
 .kurdish-text {
-  font-family: 'KurdishFont', Arial, Helvetica, sans-serif;
-  font-display: swap;
+  font-family: var(--font-kurdish), Arial, Helvetica, sans-serif;
 }
 
 @keyframes cardFadeIn {

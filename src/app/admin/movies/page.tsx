@@ -10,7 +10,7 @@ import AddMovieModal from "@/components/AddMovieModal";
 
 export default async function MoviesAdminPage() {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   // Get primary email from Clerk
   let email: string | null = null;

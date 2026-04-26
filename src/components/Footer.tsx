@@ -22,10 +22,9 @@ export default function Footer() {
               width={154}
               height={48}
               sizes="(max-width: 768px) 96px, (max-width: 1200px) 120px, 154px"
-              className="h-4 sm:h-5 md:h-6 max-w-11 max-h-11"
+              className="h-4 sm:h-5 md:h-6 w-auto"
               draggable={false}
-              priority
-              quality={70}
+                quality={40}
             />
           </Link>
 
@@ -34,6 +33,8 @@ export default function Footer() {
           
             <a href="https://discord.gg/VZHMZJDprW"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Join KurdPixel on Discord (opens in a new tab)"
             className="group flex items-center justify-center"
           >
             <svg

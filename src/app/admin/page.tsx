@@ -8,7 +8,7 @@ import { IconArrowRight, IconImage, IconTV, IconTheater } from "@/components/Ico
 
 export default async function AdminPage() {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   // Get primary email from Clerk
   let email: string | null = null;

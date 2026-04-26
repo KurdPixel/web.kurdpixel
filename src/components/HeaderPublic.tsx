@@ -82,10 +82,10 @@ export default function HeaderPublic() {
                 width={154}
                 height={48}
                 sizes="(max-width: 768px) 96px, (max-width: 1200px) 120px, 154px"
-                className="h-5 sm:h-6 md:h-7 max-w-12 max-h-12"
+                className="h-5 sm:h-6 md:h-7 w-auto"
                 draggable={false}
                 priority
-                quality={70}
+                quality={45}
               />
             </Link>
           </div>
@@ -123,7 +123,7 @@ export default function HeaderPublic() {
                 setAuthMode("sign-in");
                 setAuthOpen(true);
               }}
-              className="relative z-10 rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600"
+              className="relative z-10 rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800"
             >
               چوونەژوورەوە
             </Link>
@@ -131,6 +131,9 @@ export default function HeaderPublic() {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="public-mobile-nav-menu"
             className="md:hidden p-1.5 sm:p-2 rounded-full text-white hover:bg-white/20 transition"
           >
             <IconMenu className="h-6 w-6 sm:h-7 sm:w-7" />
@@ -139,7 +142,7 @@ export default function HeaderPublic() {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-40 md:hidden">
+        <div id="public-mobile-nav-menu" className="fixed top-14 sm:top-16 left-3 sm:left-4 right-3 sm:right-4 z-40 md:hidden">
           <div className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl p-3 sm:p-4 shadow-lg">
             <div className="flex flex-col gap-2 sm:gap-3">
               {navItems.map((item) => (
@@ -164,7 +167,7 @@ export default function HeaderPublic() {
                   setAuthMode("sign-in");
                   setAuthOpen(true);
                 }}
-                className="rounded-full bg-violet-500 px-4 py-2 text-sm text-white hover:bg-violet-600 text-center"
+                className="rounded-full bg-violet-700 px-4 py-2 text-sm text-white hover:bg-violet-800 text-center"
               >
                 چوونەژوورەوە
               </Link>
@@ -173,11 +176,13 @@ export default function HeaderPublic() {
         </div>
       )}
 
-      <AuthModal
-        open={authOpen}
-        initialMode={authMode}
-        onClose={() => setAuthOpen(false)}
-      />
+      {authOpen ? (
+        <AuthModal
+          open={authOpen}
+          initialMode={authMode}
+          onClose={() => setAuthOpen(false)}
+        />
+      ) : null}
     </>
   );
 }

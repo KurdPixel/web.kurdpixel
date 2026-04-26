@@ -57,31 +57,24 @@ export default function HomeClient({ slides }: { slides: Slide[] }) {
               priority={false}
               className="object-cover scale-110 blur-xl opacity-50 transition-all duration-700"
               draggable={false}
-              quality={45}
+              quality={30}
             />
           </div>
 
           {/* MAIN SLIDE (LCP) */}
-          {images.map((src, idx) => (
-            <div
-              key={src}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out z-10 ${
-                current === idx ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <Image
-                src={src}
-                alt="Slide"
-                fill
-                sizes="100vw"
-                priority={idx === 0}
-                fetchPriority={idx === 0 ? "high" : "auto"}
-                className="object-cover"
-                draggable={false}
-                quality={60}
-              />
-            </div>
-          ))}
+          <div key={currentImage} className="absolute inset-0 transition-opacity duration-500 ease-in-out z-10 opacity-100">
+            <Image
+              src={currentImage}
+              alt="Slide"
+              fill
+              sizes="100vw"
+              priority={current === 0}
+              fetchPriority={current === 0 ? "high" : "auto"}
+              className="object-cover"
+              draggable={false}
+              quality={45}
+            />
+          </div>
 
           {/* DARK OVERLAY */}
           <div className="absolute inset-0 bg-black/60 z-20 pointer-events-none" />
