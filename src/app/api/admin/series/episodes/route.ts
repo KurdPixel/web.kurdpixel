@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { series_id, season_number, episode_number, title, description, video_url, thumbnail_url, tmdb_rating, is_18_plus } = body;
 
-    if (!series_id || !season_number || !episode_number || !title || !video_url) {
+    if (!series_id || !season_number || !episode_number || !title) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
         episode_number,
         title,
         description,
-        video_url,
+        video_url: video_url?.trim() || "",
         thumbnail_url,
         tmdb_rating,
         is_18_plus: is_18_plus || false,

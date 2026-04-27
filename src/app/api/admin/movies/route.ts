@@ -37,7 +37,7 @@ export async function POST(req: Request) {
   } = body;
 
   // Validate required fields
-  if (!title || !video_url || !thumbnail_url || !description) {
+  if (!title || !thumbnail_url || !description) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       {
         title,
         slug: slug || title.toLowerCase().replace(/\s+/g, "-"),
-        video_url,
+        video_url: video_url?.trim() || "",
         thumbnail_url,
         description,
         tmdb_rating: tmdb_rating || null,

@@ -40,7 +40,6 @@ export default function TMDBMovieCard({
       : "",
     tags: (details.genres || []).join(", "),
     description: details.overview || "",
-    video_url: "", // User needs to fill this
     language: details.original_language || "",
     translators: "",
     is_18_plus: false,
@@ -74,13 +73,6 @@ export default function TMDBMovieCard({
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    // Validate required fields
-    if (!formData.video_url.trim()) {
-      setError("Video URL is required");
-      setLoading(false);
-      return;
-    }
 
     try {
       // Create slug from title
@@ -339,24 +331,6 @@ export default function TMDBMovieCard({
             <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wider">
               Fill These Fields
             </h3>
-
-            {/* Video URL */}
-            <div>
-              <label className="block text-xs font-medium text-white/70 mb-2">
-                Vidmoly Embed URL * (Required)
-              </label>
-              <input
-                type="text"
-                name="video_url"
-                value={formData.video_url}
-                onChange={handleChange}
-                placeholder="https://vidmoly.me/embed-xxxxxx.html"
-                className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
-              />
-              <p className="text-white/40 text-xs mt-1">
-                Paste the Vidmoly embed URL here
-              </p>
-            </div>
 
             {/* Language */}
             <div>

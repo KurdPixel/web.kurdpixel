@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import AgeRestrictionModal from "@/components/AgeRestrictionModal";
+import Player from "@/components/Player";
+import { getImdbIdFromTmdb } from "@/lib/player";
 
 type Props = {
   movie: any;
@@ -11,6 +13,7 @@ export default function MovieDetail({ movie }: Props) {
   const [showAgeModal, setShowAgeModal] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   const [viewsDisplay, setViewsDisplay] = useState("—");
+  const [imdbId, setImdbId] = useState<string | null>(null);
 
   const translators: string[] = Array.isArray(movie?.translators)
     ? movie.translators
@@ -28,22 +31,25 @@ export default function MovieDetail({ movie }: Props) {
   }, [movie.is_18_plus, hasConfirmed]);
 
   useEffect(() => {
-    async function fetchViewsFromVidmoly(url: string) {
-      try {
-        const res = await fetch(url);
-        const html = await res.text();
+    setViewsDisplay(movie.views ?? "—");
+  }, [movie.views]);
 
-        const match = html.match(/([\d.,\s]+)\s*(views|Views|View)/i);
-        return match?.[1]?.trim() ?? null;
-      } catch {
-        return null;
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchImdbId() {
+      const id = await getImdbIdFromTmdb(movie.tmdb_movie_id, "movie");
+      if (isMounted) {
+        setImdbId(id);
       }
     }
 
-    fetchViewsFromVidmoly(movie.video_url).then((views) => {
-      setViewsDisplay(views ?? movie.views ?? "—");
-    });
-  }, [movie.video_url, movie.views]);
+    fetchImdbId();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [movie.tmdb_movie_id]);
 
   const handleAgeConfirm = () => {
     setShowAgeModal(false);
@@ -135,15 +141,7 @@ export default function MovieDetail({ movie }: Props) {
             </div>
           </div>
 
-          <div className="w-full aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden shadow-xl">
-            <iframe
-              src={movie.video_url}
-              className="w-full h-full border-0"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title="Player"
-            />
-          </div>
+          <Player imdbId={imdbId} mediaType="movie" />
         </div>
       </main>
     </>

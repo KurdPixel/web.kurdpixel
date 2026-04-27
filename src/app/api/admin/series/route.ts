@@ -79,7 +79,7 @@ export async function POST(req: Request) {
         episode_number: ep.episode_number,
         title: ep.title,
         description: ep.description || "",
-        video_url: ep.video_url,
+        video_url: ep.video_url?.trim() || "",
         thumbnail_url: ep.thumbnail_url,
         tmdb_rating: 0,
         is_18_plus: false,

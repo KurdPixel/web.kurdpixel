@@ -7,6 +7,8 @@ interface Series {
   id: string;
   title: string;
   total_seasons: number;
+  thumbnail_url?: string;
+  tmdb_series_id?: number;
 }
 
 export default function NewEpisodePage({
@@ -18,6 +20,7 @@ export default function NewEpisodePage({
   const router = useRouter();
   const [series, setSeries] = useState<Series | null>(null);
   const [loading, setLoading] = useState(false);
+  const [tmdbLoading, setTmdbLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     season_number: 1,
@@ -78,7 +81,7 @@ export default function NewEpisodePage({
           episode_number: parseInt(formData.episode_number as any),
           title: formData.title,
           description: formData.description,
-          video_url: formData.video_url,
+          video_url: "",
           thumbnail_url: formData.thumbnail_url,
           tmdb_rating: formData.tmdb_rating ? parseFloat(formData.tmdb_rating) : null,
           is_18_plus: formData.is_18_plus,
@@ -95,6 +98,42 @@ export default function NewEpisodePage({
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAutofillFromTMDB = async () => {
+    if (!series?.tmdb_series_id) {
+      setError("TMDB series ID is missing for this series.");
+      return;
+    }
+
+    setTmdbLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(
+        `/api/series-tmdb/episode?id=${series.tmdb_series_id}&season=${formData.season_number}&episode=${formData.episode_number}`
+      );
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to fetch TMDB episode data");
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        title: data.title || prev.title,
+        description: data.description || prev.description,
+        tmdb_rating:
+          typeof data.tmdb_rating === "number" && !Number.isNaN(data.tmdb_rating)
+            ? String(Number(data.tmdb_rating.toFixed(1)))
+            : prev.tmdb_rating,
+        thumbnail_url: data.thumbnail_url || prev.thumbnail_url,
+      }));
+    } catch (err: any) {
+      setError(err.message || "Failed to fetch episode details from TMDB");
+    } finally {
+      setTmdbLoading(false);
     }
   };
 
@@ -156,6 +195,24 @@ export default function NewEpisodePage({
             </div>
           </div>
 
+          <div>
+            <button
+              type="button"
+              onClick={handleAutofillFromTMDB}
+              disabled={tmdbLoading || !series.tmdb_series_id}
+              className="w-full px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {tmdbLoading
+                ? "Fetching from TMDB..."
+                : "Auto-fill Episode Data from TMDB"}
+            </button>
+            {!series.tmdb_series_id && (
+              <p className="text-xs text-yellow-300 mt-2">
+                This series has no TMDB ID, so TMDB auto-fill is unavailable.
+              </p>
+            )}
+          </div>
+
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
@@ -187,33 +244,18 @@ export default function NewEpisodePage({
             />
           </div>
 
-          {/* Video URL */}
+          {/* Thumbnail */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
-              Video URL (Vidmoly Embed) *
+              Thumbnail URL
             </label>
             <input
               type="url"
-              name="video_url"
-              value={formData.video_url}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="https://vidmoly.me/embed-xxxxxx.html"
-            />
-          </div>
-
-          {/* Thumbnail - Auto-filled from Series */}
-          <div>
-            <label className="block text-sm font-medium text-white/70 mb-2">
-              Thumbnail (Auto-filled from series)
-            </label>
-            <input
-              type="url"
+              name="thumbnail_url"
               value={formData.thumbnail_url}
-              disabled
-              className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-gray-400 cursor-not-allowed"
-              placeholder="Using series thumbnail..."
+              onChange={handleChange}
+              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500"
+              placeholder="Auto-filled from TMDB or series..."
             />
           </div>
 

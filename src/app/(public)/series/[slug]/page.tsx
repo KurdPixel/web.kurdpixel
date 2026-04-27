@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, use } from "react";
 import AgeRestrictionModal from "@/components/AgeRestrictionModal";
+import Player from "@/components/Player";
+import { getImdbIdFromTmdb } from "@/lib/player";
 
 interface Episode {
   id: string;
@@ -27,6 +29,7 @@ interface SeriesDetail {
   tags?: string[];
   translators?: string[];
   is_18_plus: boolean;
+  tmdb_series_id?: number;
   episodes: { [key: number]: Episode[] };
 }
 
@@ -40,6 +43,7 @@ export default function SeriesDetailPage({ params }: { params: Promise<{ slug: s
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
   const [showAgeModal, setShowAgeModal] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
+  const [imdbId, setImdbId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSeries = async () => {
@@ -85,6 +89,25 @@ export default function SeriesDetailPage({ params }: { params: Promise<{ slug: s
   const handleEpisodeSelect = (episode: Episode) => {
     setSelectedEpisode(episode);
   };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchImdbId() {
+      const id = await getImdbIdFromTmdb(series?.tmdb_series_id, "tv");
+      if (isMounted) {
+        setImdbId(id);
+      }
+    }
+
+    if (series) {
+      fetchImdbId();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [series?.tmdb_series_id]);
 
   if (loading) {
     return (
@@ -206,14 +229,12 @@ export default function SeriesDetailPage({ params }: { params: Promise<{ slug: s
 
           {selectedEpisode && (
             <div className="mb-8 md:mb-10">
-              <div className="w-full aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden">
-                <iframe
-                  src={selectedEpisode.video_url}
-                  className="w-full h-full border-0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              </div>
+              <Player
+                imdbId={imdbId}
+                mediaType="tv"
+                season={selectedEpisode.season_number}
+                episode={selectedEpisode.episode_number}
+              />
             </div>
           )}
 

@@ -83,12 +83,8 @@ export default function TMDBSeriesCard({
   );
 
   const handleAddEpisode = () => {
-    if (
-      !newEpisode.title ||
-      !newEpisode.video_url ||
-      !newEpisode.thumbnail_url
-    ) {
-      alert("Please fill in all episode fields");
+    if (!newEpisode.title || !newEpisode.thumbnail_url) {
+      alert("Please fill in title and thumbnail");
       return;
     }
 
@@ -483,21 +479,6 @@ export default function TMDBSeriesCard({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">
-                Video URL (Required)
-              </label>
-              <input
-                type="text"
-                value={newEpisode.video_url}
-                onChange={(e) =>
-                  setNewEpisode({ ...newEpisode, video_url: e.target.value })
-                }
-                placeholder="e.g., https://vidmoly.me/..."
-                className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
-              />
-            </div>
-
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">
                 Thumbnail URL (Required)
