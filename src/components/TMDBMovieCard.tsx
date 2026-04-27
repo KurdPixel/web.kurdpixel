@@ -16,6 +16,7 @@ interface Props {
     rating: number;
     duration_minutes: number;
     poster_path: string;
+    backdrop_path: string;
     genres: string[];
     overview: string;
     release_date: string;
@@ -37,6 +38,9 @@ export default function TMDBMovieCard({
     duration_minutes: details.duration_minutes || 0,
     thumbnail_url: details.poster_path
       ? `https://image.tmdb.org/t/p/w500${details.poster_path}`
+      : "",
+    backdrop_url: details.backdrop_path
+      ? `https://image.tmdb.org/t/p/w1280${details.backdrop_path}`
       : "",
     tags: (details.genres || []).join(", "),
     description: details.overview || "",
@@ -93,6 +97,7 @@ export default function TMDBMovieCard({
           .filter(Boolean),
         slug,
         tmdb_movie_id: movie.id,
+        backdrop_url: formData.backdrop_url,
       };
 
       const res = await fetch("/api/admin/movies", {

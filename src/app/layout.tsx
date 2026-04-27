@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "KurdPixel",
-  description: "KurdPixel - Your Gateway to Kurdish Movies and Series",
+  description: "KurdPixel - Your Gateway to Movies and Series",
   icons: {
     icon: "/icon.svg",
   },
