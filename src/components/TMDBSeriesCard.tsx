@@ -83,8 +83,8 @@ export default function TMDBSeriesCard({
   );
 
   const handleAddEpisode = () => {
-    if (!newEpisode.title || !newEpisode.thumbnail_url) {
-      alert("Please fill in title and thumbnail");
+    if (!newEpisode.title) {
+      alert("Please fill in episode title");
       return;
     }
 
@@ -481,7 +481,7 @@ export default function TMDBSeriesCard({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">
-                Thumbnail URL (Required)
+                Thumbnail URL (Optional)
               </label>
               <input
                 type="text"

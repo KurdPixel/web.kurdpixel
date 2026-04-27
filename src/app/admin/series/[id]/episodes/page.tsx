@@ -16,6 +16,7 @@ interface Series {
   title: string;
   slug: string;
   total_seasons: number;
+  tmdb_series_id?: number;
 }
 
 export default function SeriesEpisodesPage({
@@ -27,6 +28,7 @@ export default function SeriesEpisodesPage({
   const [series, setSeries] = useState<Series | null>(null);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [importing, setImporting] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -67,6 +69,36 @@ export default function SeriesEpisodesPage({
     }
   };
 
+  const handleImportAllFromTMDB = async () => {
+    if (!series?.tmdb_series_id) {
+      alert("This series has no TMDB ID.");
+      return;
+    }
+
+    if (!confirm("Import all seasons and missing episodes from TMDB?")) return;
+
+    setImporting(true);
+    try {
+      const res = await fetch("/api/admin/series/episodes/import-tmdb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ series_id: id }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to import episodes");
+      }
+
+      await fetchData();
+      alert(`Imported ${data.inserted ?? 0} new episodes from TMDB.`);
+    } catch (err: any) {
+      alert(err.message || "Import failed");
+    } finally {
+      setImporting(false);
+    }
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen bg-[#121212] pt-32 pb-20">
@@ -92,12 +124,22 @@ export default function SeriesEpisodesPage({
             <h1 className="text-3xl font-bold">{series.title}</h1>
             <p className="text-gray-400 text-sm">Episodes</p>
           </div>
-          <Link
-            href={`/admin/series/${id}/episodes/new`}
-            className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors"
-          >
-            + New Episode
-          </Link>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleImportAllFromTMDB}
+              disabled={importing || !series.tmdb_series_id}
+              className="px-6 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {importing ? "Importing..." : "Import All Seasons (TMDB)"}
+            </button>
+            <Link
+              href={`/admin/series/${id}/episodes/new`}
+              className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg transition-colors"
+            >
+              + New Episode
+            </Link>
+          </div>
         </div>
 
         {/* Episodes List */}

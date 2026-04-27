@@ -64,9 +64,9 @@ export async function POST(req: Request) {
         season_number,
         episode_number,
         title,
-        description,
+        description: description?.trim() || "",
         video_url: video_url?.trim() || "",
-        thumbnail_url,
+        thumbnail_url: thumbnail_url?.trim() || "",
         tmdb_rating,
         is_18_plus: is_18_plus || false,
       })

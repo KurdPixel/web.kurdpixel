@@ -232,7 +232,7 @@ export default function NewEpisodePage({
           {/* Description */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
-              Description
+              Description (Optional)
             </label>
             <textarea
               name="description"
@@ -247,7 +247,7 @@ export default function NewEpisodePage({
           {/* Thumbnail */}
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
-              Thumbnail URL
+              Thumbnail URL (Optional)
             </label>
             <input
               type="url"
@@ -255,7 +255,7 @@ export default function NewEpisodePage({
               value={formData.thumbnail_url}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="Auto-filled from TMDB or series..."
+              placeholder="Leave empty if you don't need it"
             />
           </div>
 

@@ -78,9 +78,9 @@ export async function POST(req: Request) {
         season_number: ep.season_number,
         episode_number: ep.episode_number,
         title: ep.title,
-        description: ep.description || "",
+        description: ep.description?.trim() || "",
         video_url: ep.video_url?.trim() || "",
-        thumbnail_url: ep.thumbnail_url,
+        thumbnail_url: ep.thumbnail_url?.trim() || "",
         tmdb_rating: 0,
         is_18_plus: false,
       }));
